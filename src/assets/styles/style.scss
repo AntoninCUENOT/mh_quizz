@@ -1,0 +1,78 @@
+@import 'components/home';
+
+
+.monster-details {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.monster-card {
+    margin: 10px 10px 10px 10px;
+    padding: 10px;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.monster-card strong {
+    font-weight: bold;
+    margin-right: 5px;
+}
+.error-feedback {
+    margin-top: 20px;
+}
+
+.error-message {
+    background-color: #f44336;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.reponse{
+    display: flex;
+}
+.reponse p{
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 80px;
+    height: 80px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.reponse p span{
+    border-radius: 8px;
+
+}
+.hint {
+    background-color: #4caf50;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.correct-guess {
+    background-color: #4caf50; /* Fond vert pour une devinette correcte */
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.incorrect-guess {
+    background-color: #f44336; /* Fond rouge pour une devinette incorrecte */
+    border: 1px solid black;
+    padding: 10px;
+}
