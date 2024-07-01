@@ -89,12 +89,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     if ($user_monster[$key] !== $correct_monster[$key]) {
                         $all_correct = false;
                         break;
+                    } else {
+                        $all_correct = true;
                     }
                 }
                 foreach ($user_maps as $user_map) {
                     if (!in_array($user_map, $correct_maps)) {
                         $all_correct = false;
                         break;
+                    }
+                    else {
+                        $all_correct = true;
                     }
                 }
 
