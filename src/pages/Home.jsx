@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Navigation from '../components/Navigation';
 
 const Home = () => {
     const [userInput, setUserInput] = useState('');
@@ -118,6 +119,8 @@ const Home = () => {
     };
 
     return (
+        <>
+        <Navigation />
         <div className="home-container">
             <button onClick={handleReset}>Réinitialiser</button>
             <h1>TROUVE LE MONSTRE</h1>
@@ -153,6 +156,7 @@ const Home = () => {
                 </div>
             )}
         </div>
+        </>
     );
 };
 

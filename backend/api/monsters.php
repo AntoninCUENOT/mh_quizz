@@ -21,20 +21,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         try {
             // Sélectionner le monstre correct avec ses détails (name, type, color)
-            $query = "SELECT mc.name, mc.type, mc.color, GROUP_CONCAT(maps.name SEPARATOR ', ') AS maps
+            $query = "SELECT mc.name, types.name, mc.color, GROUP_CONCAT(maps.name SEPARATOR ', ') AS maps
                       FROM monster_correct mc 
                       JOIN monster_map mm ON mc.id = mm.monster_id 
                       JOIN maps ON maps.id = mm.map_id
+                      JOIN types ON types.id = mc.type_id
                       GROUP BY mc.id";
             $stmt = $pdo->prepare($query);
             $stmt->execute();
             $correct_monster = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Sélectionner le monstre fourni par l'utilisateur avec ses détails (name, type, color)
-            $query = "SELECT m.name, m.type, m.color, GROUP_CONCAT(maps.name SEPARATOR ', ') AS maps
+            $query = "SELECT m.name, types.name, m.color, GROUP_CONCAT(maps.name SEPARATOR ', ') AS maps
                       FROM monsters m 
                       JOIN monster_map mm ON m.id = mm.monster_id 
                       JOIN maps ON maps.id = mm.map_id 
+                      JOIN types ON types.id = m.type_id
                       WHERE m.name = ?
                       GROUP BY m.id";
             $stmt = $pdo->prepare($query);
