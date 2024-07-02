@@ -21,22 +21,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         try {
             // Sélectionner le monstre correct avec ses détails (name, type, color)
-            $query = "SELECT mc.name, types.name, mc.color, GROUP_CONCAT(maps.name SEPARATOR ', ') AS maps
+            $query = "SELECT mc.name AS correct_name, t1.name AS correct_type, mc.color AS correct_color, mc.image_path AS correct_image_path, GROUP_CONCAT(maps.name SEPARATOR ', ') AS correct_maps
                       FROM monster_correct mc 
                       JOIN monster_map mm ON mc.id = mm.monster_id 
                       JOIN maps ON maps.id = mm.map_id
-                      JOIN types ON types.id = mc.type_id
+                      JOIN types t1 ON t1.id = mc.type_id
                       GROUP BY mc.id";
             $stmt = $pdo->prepare($query);
             $stmt->execute();
             $correct_monster = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Sélectionner le monstre fourni par l'utilisateur avec ses détails (name, type, color)
-            $query = "SELECT m.name, types.name, m.color, GROUP_CONCAT(maps.name SEPARATOR ', ') AS maps
+            $query = "SELECT m.name AS user_name, t2.name AS user_type, m.color AS user_color, m.image_path AS user_image_path, GROUP_CONCAT(maps.name SEPARATOR ', ') AS user_maps
                       FROM monsters m 
                       JOIN monster_map mm ON m.id = mm.monster_id 
                       JOIN maps ON maps.id = mm.map_id 
-                      JOIN types ON types.id = m.type_id
+                      JOIN types t2 ON t2.id = m.type_id
                       WHERE m.name = ?
                       GROUP BY m.id";
             $stmt = $pdo->prepare($query);
@@ -46,24 +46,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if ($user_monster) {
                 // Préparer la réponse avec les détails du monstre correct et la comparaison avec l'input utilisateur
                 $response = array();
-                $response['correct_guess'] = ($user_input === $correct_monster['name']);
+                $response['correct_guess'] = ($user_input === $correct_monster['correct_name']);
 
                 // Formater les détails du monstre utilisateur pour l'affichage HTML avec les classes CSS appropriées
                 $formatted_details = array();
                 
                 // Séparer les noms de cartes en un tableau
-                $correct_maps = explode(', ', $correct_monster['maps']);
-                $user_maps = explode(', ', $user_monster['maps']);
+                $correct_maps = explode(', ', $correct_monster['correct_maps']);
+                $user_maps = explode(', ', $user_monster['user_maps']);
                 
-                foreach (['name', 'type', 'color'] as $key) {
-                    if ($user_monster[$key] === $correct_monster[$key]) {
+                foreach (['name', 'type', 'color', 'image_path'] as $key) {
+                    $user_key = "user_" . $key;
+                    $correct_key = "correct_" . $key;
+                    if ($user_monster[$user_key] === $correct_monster[$correct_key]) {
                         $formatted_details[$key] = array(
-                            'value' => $user_monster[$key],
+                            'value' => $user_monster[$user_key],
                             'class' => 'correct-guess'
                         );
                     } else {
                         $formatted_details[$key] = array(
-                            'value' => $user_monster[$key],
+                            'value' => $user_monster[$user_key],
                             'class' => 'incorrect-guess'
                         );
                     }
@@ -87,21 +89,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
                 // Déterminer si toutes les réponses sont correctes
                 $all_correct = $response['correct_guess'];
-                foreach (['name', 'type', 'color'] as $key) {
-                    if ($user_monster[$key] !== $correct_monster[$key]) {
+                foreach (['name', 'type', 'color', 'image_path'] as $key) {
+                    $user_key = "user_" . $key;
+                    $correct_key = "correct_" . $key;
+                    if ($user_monster[$user_key] !== $correct_monster[$correct_key]) {
                         $all_correct = false;
                         break;
-                    } else {
-                        $all_correct = true;
                     }
                 }
                 foreach ($user_maps as $user_map) {
                     if (!in_array($user_map, $correct_maps)) {
                         $all_correct = false;
                         break;
-                    }
-                    else {
-                        $all_correct = true;
                     }
                 }
 

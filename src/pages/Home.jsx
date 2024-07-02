@@ -17,8 +17,11 @@ const Home = () => {
         }
     }, []);
 
+    // Sauvegarder dans le localStorage à chaque changement de responseMessages
     useEffect(() => {
-        localStorage.setItem('submittedProposals', JSON.stringify(responseMessages));
+        if (responseMessages.length > 0) {
+            localStorage.setItem('submittedProposals', JSON.stringify(responseMessages));
+        }
     }, [responseMessages]);
 
     const fetchSuggestions = async (query) => {
@@ -44,15 +47,33 @@ const Home = () => {
             const response = await axios.get(`http://localhost:8002/api/monsters.php?name=${userInput}`);
             const data = response.data;
 
+            // Vérifier la structure des données reçues
+            if (!isValidMonsterData(data)) {
+                console.error('Invalid monster data:', data);
+                return;
+            }
+
             // Ajouter la nouvelle réponse au tableau de toutes les réponses
             const updatedResponses = [data, ...responseMessages];
             setResponseMessages(updatedResponses);
+
             // Réinitialiser le champ de saisie
             setUserInput('');
             setShowSuggestions(false);
         } catch (error) {
             console.error('Error submitting guess:', error);
         }
+    };
+
+    // Vérifier si les données du monstre sont valides
+    const isValidMonsterData = (data) => {
+        return (
+            data &&
+            data.correct_guess !== undefined &&
+            data.all_correct !== undefined &&
+            data.user_monster &&
+            data.correct_monster
+        );
     };
 
     const handleReset = () => {
@@ -120,42 +141,43 @@ const Home = () => {
 
     return (
         <>
-        <Navigation />
-        <div className="home-container">
-            <button onClick={handleReset}>Réinitialiser</button>
-            <h1>TROUVE LE MONSTRE</h1>
-            
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Devinez le nom du monstre..."
-                    value={userInput}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                />
-                {renderSuggestions()}
-            </form>
+            <Navigation />
+            <div className="home-container">
+                <button onClick={handleReset}>Réinitialiser</button>
+                <h1>TROUVE LE MONSTRE</h1>
+                
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Devinez le nom du monstre..."
+                        value={userInput}
+                        onChange={handleChange}
+                        onKeyDown={handleKeyDown}
+                    />
+                    {renderSuggestions()}
+                </form>
 
-            {responseMessages.length > 0 && (
-                <div className="all-responses">
-                    {responseMessages.map((response, index) => (
-                        <div key={index} className={`result ${response.all_correct ? 'correct' : 'incorrect'}`}>
-                            {response.all_correct && (
-                                <p>Bonne réponse ! Vous avez trouvé le bon monstre.</p>
-                            )}
-                            <div className='reponse'>
-                                <p className={response.user_monster.name.class}><span>{response.user_monster.name.value}</span></p>
-                                <p className={response.user_monster.type.class}><span>{response.user_monster.type.value}</span></p>
-                                <p className={response.user_monster.color.class}><span>{response.user_monster.color.value}</span></p>
-                                {response.user_monster.maps.map((map, idx) => (
-                                    <p key={idx} className={map.class}><span>{map.value}</span></p>
-                                ))}
+                {responseMessages.length > 0 && (
+                    <div className="all-responses">
+                        {responseMessages.map((response, index) => (
+                            <div key={index} className={`result ${response.all_correct ? 'correct' : 'incorrect'}`}>
+                                {response.all_correct && (
+                                    <p>Bonne réponse ! Vous avez trouvé le bon monstre.</p>
+                                )}
+                                <div className='reponse'>
+                                    <img src={response.user_monster.image_path.value} alt={response.user_monster.name.value} />
+                                    <p className={response.user_monster.name.class}><span>{response.user_monster.name.value}</span></p>
+                                    <p className={response.user_monster.type.class}><span>{response.user_monster.type.value}</span></p>
+                                    <p className={response.user_monster.color.class}><span>{response.user_monster.color.value}</span></p>
+                                    {response.user_monster.maps.slice(0, 3).map((map, idx) => (
+                                        <p key={idx} className={map.class}><span>{map.value}</span></p>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </>
     );
 };
