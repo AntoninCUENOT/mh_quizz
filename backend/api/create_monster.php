@@ -18,6 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $name = isset($_POST['name']) ? trim($_POST['name']) : '';
 $type_id = isset($_POST['type_id']) ? intval($_POST['type_id']) : null;
 $color = isset($_POST['color']) ? trim($_POST['color']) : '';
+$size_min = isset($_POST['size_min']) ? intval($_POST['size_min']) : null;
+$size_max = isset($_POST['size_max']) ? intval($_POST['size_max']) : null;
 $description = isset($_POST['description']) ? trim($_POST['description']) : '';
 $maps = isset($_POST['maps']) ? json_decode($_POST['maps'], true) : [];
 
@@ -70,12 +72,14 @@ try {
     $pdo->beginTransaction();
 
     // Insertion du monstre dans la table `monsters`
-    $sql = "INSERT INTO monsters (name, type_id, color, description, image_path, sound_path, theme_path)
-            VALUES (:name, :type_id, :color, :description, :image_path, :sound_path, :theme_path)";
+    $sql = "INSERT INTO monsters (name, type_id, color, size_min, size_max, description, image_path, sound_path, theme_path)
+            VALUES (:name, :type_id, :color, :size_min, :size_max, :description, :image_path, :sound_path, :theme_path)";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':type_id', $type_id);
     $stmt->bindParam(':color', $color);
+    $stmt->bindParam(':size_min', $size_min);
+    $stmt->bindParam(':size_max', $size_max);
     $stmt->bindParam(':description', $description);
     $stmt->bindParam(':image_path', $image_path);
     $stmt->bindParam(':sound_path', $sound_path);

@@ -17,11 +17,11 @@ function sendJsonResponse($response, $code = 200) {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Vérifier si le paramètre 'name' est présent dans la requête GET
     if (isset($_GET['name'])) {
-        $user_input = $_GET['name'];
+        $user_input = htmlspecialchars(strip_tags($_GET['name'])); // Sécuriser l'entrée utilisateur
 
         try {
             // Sélectionner le monstre correct avec ses détails (name, type, color)
-            $query = "SELECT mc.name AS correct_name, t1.name AS correct_type, mc.color AS correct_color, mc.image_path AS correct_image_path, GROUP_CONCAT(maps.name SEPARATOR ', ') AS correct_maps
+            $query = "SELECT mc.name AS correct_name, t1.name AS correct_type, mc.color AS correct_color, mc.description AS correct_description, mc.size_min AS correct_size_min, mc.size_max AS correct_size_max, mc.image_path AS correct_image_path, GROUP_CONCAT(maps.name SEPARATOR ', ') AS correct_maps
                       FROM monster_correct mc 
                       JOIN monster_map mm ON mc.id = mm.monster_id 
                       JOIN maps ON maps.id = mm.map_id
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $correct_monster = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Sélectionner le monstre fourni par l'utilisateur avec ses détails (name, type, color)
-            $query = "SELECT m.name AS user_name, t2.name AS user_type, m.color AS user_color, m.image_path AS user_image_path, GROUP_CONCAT(maps.name SEPARATOR ', ') AS user_maps
+            $query = "SELECT m.name AS user_name, t2.name AS user_type, m.color AS user_color, m.description AS user_description, m.size_min AS user_size_min, m.size_max AS user_size_max, m.image_path AS user_image_path, GROUP_CONCAT(maps.name SEPARATOR ', ') AS user_maps
                       FROM monsters m 
                       JOIN monster_map mm ON m.id = mm.monster_id 
                       JOIN maps ON maps.id = mm.map_id 
@@ -50,12 +50,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
                 // Formater les détails du monstre utilisateur pour l'affichage HTML avec les classes CSS appropriées
                 $formatted_details = array();
-                
+
                 // Séparer les noms de cartes en un tableau
                 $correct_maps = explode(', ', $correct_monster['correct_maps']);
                 $user_maps = explode(', ', $user_monster['user_maps']);
-                
-                foreach (['name', 'type', 'color', 'image_path'] as $key) {
+
+                foreach (['name', 'type', 'color', 'description', 'image_path'] as $key) {
                     $user_key = "user_" . $key;
                     $correct_key = "correct_" . $key;
                     if ($user_monster[$user_key] === $correct_monster[$correct_key]) {
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                         );
                     }
                 }
-                
+
                 // Comparer les noms de cartes individuellement
                 $formatted_details['maps'] = array();
                 foreach ($user_maps as $user_map) {
@@ -87,9 +87,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     }
                 }
 
+                // Comparer size_min et size_max
+                foreach (['size_min', 'size_max'] as $key) {
+                    $user_key = "user_" . $key;
+                    $correct_key = "correct_" . $key;
+                    if ($user_monster[$user_key] < $correct_monster[$correct_key]) {
+                        $formatted_details[$key] = array(
+                            'value' => $user_monster[$user_key],
+                            'class' => 'size-lower incorrect-guess',
+                            'arrow' => '↑'
+                        );
+                    } elseif ($user_monster[$user_key] > $correct_monster[$correct_key]) {
+                        $formatted_details[$key] = array(
+                            'value' => $user_monster[$user_key],
+                            'class' => 'size-higher incorrect-guess',
+                            'arrow' => '↓'
+                        );
+                    } else {
+                        $formatted_details[$key] = array(
+                            'value' => $user_monster[$user_key],
+                            'class' => 'correct-guess size'
+                        );
+                    }
+                }
+
                 // Déterminer si toutes les réponses sont correctes
                 $all_correct = $response['correct_guess'];
-                foreach (['name', 'type', 'color', 'image_path'] as $key) {
+                foreach (['name', 'type', 'color', 'description', 'image_path'] as $key) {
                     $user_key = "user_" . $key;
                     $correct_key = "correct_" . $key;
                     if ($user_monster[$user_key] !== $correct_monster[$correct_key]) {
@@ -99,6 +123,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 }
                 foreach ($user_maps as $user_map) {
                     if (!in_array($user_map, $correct_maps)) {
+                        $all_correct = false;
+                        break;
+                    }
+                }
+
+                foreach (['size_min', 'size_max'] as $key) {
+                    $user_key = "user_" . $key;
+                    $correct_key = "correct_" . $key;
+                    if ($user_monster[$user_key] !== $correct_monster[$correct_key]) {
                         $all_correct = false;
                         break;
                     }

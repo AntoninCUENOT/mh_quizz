@@ -6,11 +6,20 @@ const Navigation = () => {
         <NavLink to="/" className={(nav) => (nav.isActive ? "nav-active" : "")}>
           <h2>HOME</h2>
         </NavLink>
+        <NavLink to="/guess-monster" className={(nav) => (nav.isActive ? "nav-active" : "")}>
+          <h2>GUESS MONSTER</h2>
+        </NavLink>
         <NavLink
           to="/admin"
           className={(nav) => (nav.isActive ? "nav-active" : "")}
         >
           <h2>ADMIN</h2>
+        </NavLink>
+        <NavLink
+          to="/admin/monster"
+          className={(nav) => (nav.isActive ? "nav-active" : "")}
+        >
+          <h2>ADD MONSTER</h2>
         </NavLink>
     </div>
   );

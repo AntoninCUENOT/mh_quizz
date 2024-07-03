@@ -6,6 +6,8 @@ const MonsterForm = () => {
         name: '',
         type_id: '',
         color: '',
+        size_min: '',
+        size_max: '',
         description: '',
         image: null,
         sound: null,
@@ -62,6 +64,8 @@ const MonsterForm = () => {
         postData.append('name', formData.name);
         postData.append('type_id', formData.type_id);
         postData.append('color', formData.color);
+        postData.append('size_min', formData.size_min);
+        postData.append('size_max', formData.size_max);
         postData.append('description', formData.description);
         if (formData.image) {
             postData.append('image', formData.image);
@@ -86,6 +90,8 @@ const MonsterForm = () => {
                 name: '',
                 type_id: '',
                 color: '',
+                size_min: '',
+                size_max: '',
                 description: '',
                 image: null,
                 sound: null,
@@ -115,6 +121,12 @@ const MonsterForm = () => {
                 
                 <label>Color:</label>
                 <input type="text" name="color" value={formData.color} onChange={handleInputChange} />
+
+                <label>Size (cm) minimum:</label>
+                <input type="number" name="size_min" value={formData.size_min} onChange={handleInputChange} />
+
+                <label>Size (cm) maximum:</label>
+                <input type="number" name="size_max" value={formData.size_max} onChange={handleInputChange} />
                 
                 <label>Description:</label>
                 <textarea name="description" value={formData.description} onChange={handleInputChange}></textarea>

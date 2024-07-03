@@ -8,12 +8,18 @@ const Home = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
+    const [isCorrectAnswer, setIsCorrectAnswer] = useState(false); // Nouvelle variable d'état
+    const [isAnswer, setIsAnswer] = useState(false);
 
     // Au chargement initial, récupérer les propositions stockées dans le localStorage
     useEffect(() => {
         const storedProposals = JSON.parse(localStorage.getItem('submittedProposals'));
+        const storedCorrectAnswer = JSON.parse(localStorage.getItem('correctAnswer'));
+        const storedAnswer = JSON.parse(localStorage.getItem('answer'));
         if (storedProposals) {
             setResponseMessages(storedProposals);
+            setIsCorrectAnswer(storedCorrectAnswer);
+            setIsAnswer(storedAnswer);
         }
     }, []);
 
@@ -21,6 +27,8 @@ const Home = () => {
     useEffect(() => {
         if (responseMessages.length > 0) {
             localStorage.setItem('submittedProposals', JSON.stringify(responseMessages));
+            localStorage.setItem('correctAnswer',JSON.stringify(isCorrectAnswer));
+            localStorage.setItem('answer',JSON.stringify(isAnswer));
         }
     }, [responseMessages]);
 
@@ -57,6 +65,11 @@ const Home = () => {
             const updatedResponses = [data, ...responseMessages];
             setResponseMessages(updatedResponses);
 
+            // Vérifier si la réponse est correcte et mettre à jour la variable d'état
+            if (data.all_correct) {
+                setIsCorrectAnswer(true);
+            }
+            setIsAnswer(true);
             // Réinitialiser le champ de saisie
             setUserInput('');
             setShowSuggestions(false);
@@ -79,6 +92,7 @@ const Home = () => {
     const handleReset = () => {
         setUserInput('');
         setResponseMessages([]);
+        setIsCorrectAnswer(false); // Réinitialiser la variable d'état
         localStorage.removeItem('submittedProposals');
     };
 
@@ -142,27 +156,47 @@ const Home = () => {
     return (
         <>
             <Navigation />
+            <button onClick={handleReset}>Réinitialiser</button>
             <div className="home-container">
-                <button onClick={handleReset}>Réinitialiser</button>
-                <h1>TROUVE LE MONSTRE</h1>
-                
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Devinez le nom du monstre..."
-                        value={userInput}
-                        onChange={handleChange}
-                        onKeyDown={handleKeyDown}
-                    />
-                    {renderSuggestions()}
-                </form>
-
+                {!isCorrectAnswer && (
+                    <>
+                        <h1>TROUVE LE MONSTRE</h1>
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type="text"
+                                placeholder="Devinez le nom du monstre..."
+                                value={userInput}
+                                onChange={handleChange}
+                                onKeyDown={handleKeyDown}
+                            />
+                            {renderSuggestions()}
+                        </form>
+                    </>
+                )}
+                {isAnswer && (
+                <div className='reponse'>
+                    <p><span>LOGO</span></p>
+                    <p><span>MONSTRE</span></p>
+                    <p><span>ESPECE</span></p>
+                    <p><span>COULEUR</span></p>
+                    <p><span>MAP 1</span></p>
+                    <p><span>MAP 2</span></p>
+                    <p><span>MAP 3</span></p>
+                    <p><span>TAILLE MIN</span></p>
+                    <p><span>TAILLE MAX</span></p>
+                </div>
+                )}
                 {responseMessages.length > 0 && (
                     <div className="all-responses">
                         {responseMessages.map((response, index) => (
                             <div key={index} className={`result ${response.all_correct ? 'correct' : 'incorrect'}`}>
                                 {response.all_correct && (
-                                    <p>Bonne réponse ! Vous avez trouvé le bon monstre.</p>
+                                    <div className='correct-monster'>
+                                        <h2 className='bravo'>BRAVO!!!<br />
+                                            <img src={response.user_monster.image_path.value} alt={response.user_monster.name.value} />{response.user_monster.name.value}<br></br>
+                                            {response.user_monster.description.value}
+                                        </h2>
+                                    </div>
                                 )}
                                 <div className='reponse'>
                                     <img src={response.user_monster.image_path.value} alt={response.user_monster.name.value} />
@@ -172,6 +206,12 @@ const Home = () => {
                                     {response.user_monster.maps.slice(0, 3).map((map, idx) => (
                                         <p key={idx} className={map.class}><span>{map.value}</span></p>
                                     ))}
+                                    <p className={response.user_monster.size_min.class}>
+                                        <span className='arrow'>{response.user_monster.size_min.arrow}</span><span>{response.user_monster.size_min.value}<br></br>Cm</span><span className='arrow'>{response.user_monster.size_min.arrow}</span>
+                                    </p>
+                                    <p className={response.user_monster.size_max.class}>
+                                        <span className='arrow'>{response.user_monster.size_max.arrow}</span><span>{response.user_monster.size_max.value}<br></br>cm</span><span className='arrow'>{response.user_monster.size_max.arrow}</span>
+                                    </p>
                                 </div>
                             </div>
                         ))}

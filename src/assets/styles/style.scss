@@ -66,6 +66,8 @@
 }
 .reponse{
     display: flex;
+    
+    
 }
 .reponse p,img{
     border-radius: 8px;
@@ -81,9 +83,31 @@
     height: 80px;
     font-weight: bold;
     text-transform: uppercase;
+    padding: 10px;
+    border: 1px solid black;
 }
 .reponse p span{
     border-radius: 8px;
+}
+
+.correct-monster{
+    position: fixed;
+    left: calc(50% - 150px);
+    top: calc(50% - 220px);
+    background:     rgb(234, 234, 234);
+    border-radius: 64px;
+    border: 1px solid black;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.813);
+}
+.bravo{
+    text-align: center;
+    text-transform: uppercase;
+
+}
+.bravo img{
+    border: 1px;
+    height: auto;
+    width: 300px;
 
 }
 .hint {
@@ -94,13 +118,19 @@
 .correct-guess {
     background-color: #4caf50; /* Fond vert pour une devinette correcte */
     border: 1px solid black;
-    padding: 10px;
 }
 
 .incorrect-guess {
-    background-color: #f44336; /* Fond rouge pour une devinette incorrecte */
+    background-color: #ff1100; /* Fond rouge pour une devinette incorrecte */
     border: 1px solid black;
-    padding: 10px;
+}
+
+span.arrow {
+    font-weight: bold;
+}
+
+.size-lower span, .size-higher span, .size span{
+    font-size: 20px;
 }
 
 .monster-form {
