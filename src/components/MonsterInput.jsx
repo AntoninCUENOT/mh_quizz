@@ -37,9 +37,12 @@ const MonsterInput = ({ onSubmit }) => {
     };
 
     const handleClick = (e) => {
-        setUserInput(e.target.innerText);
+        const suggestion = e.target.innerText;
+        setUserInput(suggestion);
         setSuggestions([]);
         setShowSuggestions(false);
+        onSubmit(suggestion); // Appel à onSubmit avec la suggestion choisie
+        setUserInput('');
     };
 
     const handleKeyDown = (e) => {

@@ -5,7 +5,6 @@ import MonsterInput from '../components/MonsterInput';
 import Response from '../components/Response';
 
 const QuizzGuessMonster = () => {
-    const [userInput, setUserInput] = useState('');
     const [responseMessages, setResponseMessages] = useState([]);
     const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
     const [isAnswer, setIsAnswer] = useState(false);
@@ -64,7 +63,6 @@ const QuizzGuessMonster = () => {
     };
 
     const handleReset = () => {
-        setUserInput('');
         setResponseMessages([]);
         setIsCorrectAnswer(false);
         setIsAnswer(false);

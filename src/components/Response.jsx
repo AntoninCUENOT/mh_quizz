@@ -2,13 +2,25 @@ import React from 'react';
 
 const Response = ({ responseMessages }) => {
     return (
+        <>
+        <div className='reponse'>
+            <p className='high-array'><span>LOGO</span></p>
+            <p className='high-array'><span>MONSTRE</span></p>
+            <p className='high-array'><span>ESPECE</span></p>
+            <p className='high-array'><span>COULEUR</span></p>
+            <p className='high-array'><span>MAP 1</span></p>
+            <p className='high-array'><span>MAP 2</span></p>
+            <p className='high-array'><span>MAP 3</span></p>
+            <p className='high-array'><span>TAILLE MIN</span></p>
+            <p className='high-array'><span>TAILLE MAX</span></p>
+        </div>
         <div className="all-responses">
             {responseMessages.map((response, index) => (
                 <div key={index} className={`result ${response.all_correct ? 'correct' : 'incorrect'}`}>
                     {response.all_correct && (
                         <div className='correct-monster'>
                             <h2 className='bravo'>BRAVO!!!<br />
-                                <img src={response.user_monster.image_path.value} alt={response.user_monster.name.value} />{response.user_monster.name.value}<br></br>
+                                <img src={response.user_monster.image_path.value} alt={response.user_monster.name.value} /><br></br>{response.user_monster.name.value}<br></br>
                                 {response.user_monster.description.value}
                             </h2>
                         </div>
@@ -31,6 +43,7 @@ const Response = ({ responseMessages }) => {
                 </div>
             ))}
         </div>
+        </>
     );
 };
 
