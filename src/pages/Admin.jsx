@@ -1,10 +1,9 @@
-import React from 'react';
-import Navigation from '../components/Navigation';
+import NavigationAdmin from '../components/NavigationAdmin';
 
 const Admin = () => {
     return (
         <>
-            <Navigation />
+            <NavigationAdmin />
             
 
         </>

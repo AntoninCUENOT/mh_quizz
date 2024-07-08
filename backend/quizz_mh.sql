@@ -245,7 +245,7 @@ DELIMITER $$
 --
 -- Évènements
 --
-CREATE DEFINER=`root`@`localhost` EVENT `update_monster_correct` ON SCHEDULE EVERY 10 MINUTE STARTS '2024-06-28 07:29:20' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
+CREATE DEFINER=`root`@`localhost` EVENT `update_monster_correct` ON SCHEDULE EVERY 24 HOUR STARTS '2024-06-28 07:29:20' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
   DELETE FROM monster_correct;
   INSERT INTO monster_correct (id, name, type_id, color, description, image_path, sound_path, theme_path)
   SELECT id, name, type_id, color, description, image_path, sound_path, theme_path

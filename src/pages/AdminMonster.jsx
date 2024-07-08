@@ -1,13 +1,10 @@
-import React from 'react';
 import MonsterForm from '../components/MonsterForm'; // Importez votre formulaire de création de monstre
-import '../assets/styles/style.scss';
-import Navigation from '../components/Navigation';
+import NavigationAdmin from '../components/NavigationAdmin';
 
 const AdminMonster = () => {
     return (
         <>
-            <Navigation />
-            <h1>Admin Monster Page</h1>
+            <NavigationAdmin />
             <MonsterForm /> {/* Incluez votre formulaire de création de monstre */}
         </>
     );

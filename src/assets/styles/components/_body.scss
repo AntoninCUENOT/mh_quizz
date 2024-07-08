@@ -2,10 +2,16 @@
     margin: 0;
     padding: 0;
     color: white;
+    font-family: sans-serif;
 }
 body{
-    background-image: url('/src/assets/monsters/images/wallpaper/backmisu.jpg');
+    background-image: url('../src/assets/monsters/images/wallpaper/backmisu.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+}
+button{
+    background-color: #000000;
+    color: white;
+    cursor: pointer;
 }

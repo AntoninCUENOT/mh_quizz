@@ -1,19 +1,28 @@
 import { NavLink } from "react-router-dom";
 
-const Navigation = () => {
+const NavigationAdmin = () => {
   return (
     <div style={navStyle}>
         <NavLink style={linkStyle} to="/" className={(nav) => (nav.isActive ? "nav-active" : "")}>
           <h2>HOME</h2>
-        </NavLink>
-        <NavLink style={linkStyle} to="/guess-monster" className={(nav) => (nav.isActive ? "nav-active" : "")}>
-          <h2>GUESS MONSTER</h2>
         </NavLink>
         <NavLink  style={linkStyle}
           to="/admin"
           className={(nav) => (nav.isActive ? "nav-active" : "")}
         >
           <h2>ADMIN</h2>
+        </NavLink>
+        <NavLink  style={linkStyle}
+          to="/admin/monster"
+          className={(nav) => (nav.isActive ? "nav-active" : "")}
+        >
+          <h2>ADD MONSTER</h2>
+        </NavLink>
+        <NavLink  style={linkStyle}
+          to="/admin/wallpaper"
+          className={(nav) => (nav.isActive ? "nav-active" : "")}
+        >
+          <h2>WALLPAPER</h2>
         </NavLink>
     </div>
   );
@@ -37,4 +46,4 @@ const linkStyle = {
     border:'1px solid white'
 };
 
-export default Navigation;
+export default NavigationAdmin;

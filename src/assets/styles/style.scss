@@ -219,7 +219,14 @@ label {
 }
 
 .hints{
-    
+    p.tentative{
+        margin: 1rem;
+        background-color: black;
+        font-size: 1.3rem;
+        border: 1px solid white;
+        padding: 5px;
+        border-radius: 16px;
+    }
     .hint-item{
         display: flex;
         flex-direction: column;
@@ -227,4 +234,57 @@ label {
             margin: 10px;
         }
     }
+}
+
+/* Style de base pour les éléments details et summary */
+details {
+    border-radius: 4px;
+    margin: 1.5rem;
+
+    summary {
+        font-weight: bold;
+        cursor: pointer;
+        list-style: none;
+        background-color: #000000;
+        border-radius: 4px;
+        span {
+            padding: 10px;
+            border: 1px solid #aaa;
+            background-color: #000000;
+        }
+        span:hover {
+            background-color: #ffffff;
+            color: black;
+        }
+    }
+    p {
+        text-align: center;
+        font-weight: bold;
+        padding: 5px;
+    }
+}
+
+/* Ajouter un X lorsque le contenu est révélé */
+details[open] summary::before {
+    content: 'x';
+    color: white;
+    position: absolute;
+}
+
+/* Masquer le contenu initial du summary lorsque le details est ouvert */
+details[open] summary .summary-content {
+    display: none;
+}
+
+details[open] summary:hover {
+    background-color: #ffffff;
+    color: black;
+}
+
+/* Optionnel: style pour le contenu révélé */
+details[open] {
+    padding: 0.5em;
+    background-color: #000000;
+    border: 1px solid #ffffff;
+    border-radius: 16px;
 }

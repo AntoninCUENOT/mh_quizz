@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Response = ({ responseMessages }) => {
@@ -71,6 +71,8 @@ const Response = ({ responseMessages }) => {
         setIncorrectAttempts(incorrectResponses);
     }, [responseMessages]);
 
+
+
     return (
         <>
             <div className="hints">
@@ -78,21 +80,21 @@ const Response = ({ responseMessages }) => {
                     hints.length > 0 ? (
                         hints.map((hint, index) => (
                             <div key={index} className="hint-item">
-                                <audio controls>
-                                    <source src={hint.sound_path} type="audio/mp3" />
-                                    Your browser does not support the audio element.
-                                </audio>
-                                <audio controls>
-                                    <source src={hint.theme_path} type="audio/mp3" />
-                                    Your browser does not support the audio element.
-                                </audio>
+                                <details>
+                                    <summary><span className="summary-content">INDICE</span></summary>
+                                    <p>THEME</p>
+                                    <audio controls>
+                                        <source src={hint.theme_path} type="audio/mp3" />
+                                        Your browser does not support the audio element
+                                    </audio>
+                                </details>
                             </div>
                         ))
                     ) : (
-                        <p>Aucun indice disponible pour le moment.</p>
+                        <p>Aucun indice disponible pour le moment</p>
                     )
                 ) : (
-                    <p>Vous avez {5 - incorrectAttempts} tentatives incorrectes restantes avant de recevoir un indice.</p>
+                    <p className='tentative'>Vous avez {5 - incorrectAttempts} tentatives incorrectes restantes avant de recevoir un indice</p>
                 )}
             </div>
             <div className='reponses'>
