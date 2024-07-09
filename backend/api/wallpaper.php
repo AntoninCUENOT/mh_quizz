@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['wallpaper'])) {
         // Déplacer le fichier téléchargé vers le répertoire cible
         if (move_uploaded_file($_FILES["wallpaper"]["tmp_name"], $target_file)) {
             // Chemin relatif du fichier dans votre projet
-            $path = '../../src/assets/monsters/images/wallpaper/' . $file_name;
+            $path = './src/assets/monsters/images/wallpaper/' . $file_name;
 
             // Insertion dans la base de données
             $stmt = $pdo->prepare("UPDATE wallpaper SET name = :name, path = :path WHERE id = 1");

@@ -30,7 +30,7 @@ if (empty($name) || empty($type_id) || empty($maps)) {
 }
 
 // Définir le dossier de téléchargement des fichiers
-$uploadDir = '../../src/assets/monsters/';
+$uploadDir = './src/assets/monsters/';
 
 // Fonction pour gérer le téléchargement des fichiers
 function handleFileUpload($file, $uploadDir, $name) {
