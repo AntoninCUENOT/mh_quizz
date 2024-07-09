@@ -25,6 +25,7 @@ const UploadImage = () => {
         .then(data => {
             if (data.status === 'success') {
                 alert('Upload successful!');
+                location.reload();
             } else {
                 setMessage(data.message); // Set the error message state
             }
@@ -36,9 +37,9 @@ const UploadImage = () => {
     };
 
     return (
-        <div>
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={handleUpload}>Upload</button>
+        <div style={{textAlign:'center', marginTop:'5vh'}}>
+            <input style={{background:'black', padding:'1rem', borderRadius:'64px', border:'1px solid white', marginRight:'1rem'}} type="file" onChange={handleFileChange} />
+            <button style={{background:'black', padding:'1rem', borderRadius:'64px', border:'1px solid white'}} onClick={handleUpload}>UPLOAD</button>
             {message && <p>{message}</p>}
         </div>
     );

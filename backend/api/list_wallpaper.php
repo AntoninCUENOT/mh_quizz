@@ -1,12 +1,18 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
+// header("Access-Control-Allow-Origin: *");
+// header("Content-Type: application/json; charset=UTF-8");
 
-require_once '../config.php'; // Inclure votre fichier de connexion à la base de données
+// require_once '../config.php';
 
-$images = array();
-$stmt = $pdo->query("SELECT * FROM wallpaper");
-$images = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $images = array();
+// $stmt = $pdo->query("SELECT * FROM wallpaper");
+// while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+//     $images[] = $row;
+// }
 
-echo json_encode($images);
+// // Récupérer l'image active
+// $activeStmt = $pdo->query("SELECT * FROM wallpaper WHERE is_active = TRUE LIMIT 1");
+// $activeImage = $activeStmt->fetch(PDO::FETCH_ASSOC);
+
+// echo json_encode(array('images' => $images, 'activeImage' => $activeImage));
 ?>

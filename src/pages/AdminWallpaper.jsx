@@ -1,14 +1,13 @@
 import NavigationAdmin from "../components/NavigationAdmin";
 import UploadImage from "../components/UploadImage";
-import WallpaperSelector from "../components/WallpaperSelector";
+
 
 const AdminWallpaper = () => {
     return (
-        <div>
+        <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
             <NavigationAdmin />
-            <h1>Upload and Select Wallpaper</h1>
+            <h1 style={{background:'black', padding:'1rem', borderRadius:'64px', border:'1px solid white'}}>Upload and Change WALLPAPER</h1>
             <UploadImage />
-            <WallpaperSelector />
         </div>
     );
 };

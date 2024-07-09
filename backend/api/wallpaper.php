@@ -8,7 +8,7 @@ require_once '../config.php';
 // Vérifier la méthode de requête HTTP
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['wallpaper'])) {
     $target_dir = '../../src/assets/monsters/images/wallpaper/';
-    $file_name = $_FILES['wallpaper']['name'];
+    $file_name = "amatsu.jpg";
     $target_file = $target_dir . basename($file_name);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['wallpaper'])) {
             $path = '../../src/assets/monsters/images/wallpaper/' . $file_name;
 
             // Insertion dans la base de données
-            $stmt = $pdo->prepare("INSERT INTO wallpaper (name, path) VALUES (:name, :path)");
+            $stmt = $pdo->prepare("UPDATE wallpaper SET name = :name, path = :path WHERE id = 1");
             $stmt->bindParam(':name', $file_name);
             $stmt->bindParam(':path', $path);
 
