@@ -105,9 +105,9 @@ const MonsterForm = () => {
     };
 
     return (
-        <div>
-            <h2>Create Monster</h2>
+        <div className='monster-formulaire'>
             <form onSubmit={handleSubmit} className='monster-form'>
+                <h2>Create Monster</h2>
                 <label>Name:</label>
                 <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
                 

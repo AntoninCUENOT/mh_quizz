@@ -1,0 +1,74 @@
+.monster-formulaire {
+    display: flex;
+    justify-content: center;
+}
+.monster-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    max-width: 600px;
+    padding: 3rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #000000;
+}
+
+.monster-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.monster-form input[type="text"],
+.monster-form input[type="number"],
+.monster-form input[type="file"],
+.monster-form select,
+.monster-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #000000;
+}
+.monster-form select {
+    background-color: #000000;
+}
+.monster-form input[type="file"] {
+    padding: 0;
+}
+
+.monster-form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.maps-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.map-item {
+    padding: 5px;
+    width: 30%;
+}
+.map-item input {
+    margin-right: 5px;
+}
+
+.monster-form button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.monster-form button[type="submit"]:hover {
+    background-color: #45a049;
+}

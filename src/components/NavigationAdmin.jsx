@@ -3,34 +3,31 @@ import { NavLink } from "react-router-dom";
 const NavigationAdmin = () => {
   return (
     <div style={navStyle}>
-        <NavLink style={linkStyle} to="/" className={(nav) => (nav.isActive ? "nav-active" : "")}>
-          <h2>HOME</h2>
-        </NavLink>
-        <NavLink  style={linkStyle}
-          to="/admin"
-          className={(nav) => (nav.isActive ? "nav-active" : "")}
+        <NavLink
+            style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+            to="/"
         >
-          <h2>ADMIN</h2>
+            <h2>HOME</h2>
         </NavLink>
-        <NavLink  style={linkStyle}
-          to="/admin/monster"
-          className={(nav) => (nav.isActive ? "nav-active" : "")}
+        <NavLink
+            style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+            to="/admin/monster"
         >
-          <h2>ADD MONSTER</h2>
+            <h2>ADD MONSTER</h2>
         </NavLink>
-        <NavLink  style={linkStyle}
-          to="/admin/wallpaper"
-          className={(nav) => (nav.isActive ? "nav-active" : "")}
+        <NavLink
+            style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+            to="/admin/wallpaper"
         >
-          <h2>WALLPAPER</h2>
+            <h2>WALLPAPER</h2>
         </NavLink>
     </div>
-  );
+);
 };
 
 const navStyle = {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     padding: '1em',
 };
 
@@ -44,6 +41,10 @@ const linkStyle = {
     background:'black',
     borderRadius: '64px',
     border:'1px solid white'
+};
+
+const activeLinkStyle = {
+  background: 'rgba(100,100,100,0.8)'
 };
 
 export default NavigationAdmin;

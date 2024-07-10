@@ -4,10 +4,12 @@ import UploadImage from "../components/UploadImage";
 
 const AdminWallpaper = () => {
     return (
-        <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+        <div>
             <NavigationAdmin />
-            <h1 style={{background:'black', padding:'1rem', borderRadius:'64px', border:'1px solid white'}}>Upload and Change WALLPAPER</h1>
-            <UploadImage />
+            <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                <h2 style={{background:'black', padding:'1rem', borderRadius:'64px', border:'1px solid white'}}>Upload and Change WALLPAPER</h2>
+                <UploadImage />
+            </div>
         </div>
     );
 };
