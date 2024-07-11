@@ -13,14 +13,27 @@ const PrivateRoute = ({ children }) => {
   return userRole === 'admin' ? children : <Navigate to="/" />;
 };
 
+const LogRoute = ({ children }) => {
+  const userId = localStorage.getItem('userId');
+  return !userId ? children : <Navigate to="/" />;
+};
+
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={
+          <LogRoute>
+            <Login />
+          </LogRoute>
+        } />
+        <Route path="/signup" element={
+          <LogRoute>
+            <SignUp />
+          </LogRoute>
+        } />
         <Route path="/guess-monster" element={<QuizzGuessMonster />} />
         <Route path="/admin" element={
           <PrivateRoute>
