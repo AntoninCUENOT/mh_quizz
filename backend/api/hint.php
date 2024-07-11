@@ -1,28 +1,37 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-// Inclure le fichier de configuration pour la connexion à la base de données
-require_once '../config.php';
 
-// Requête SQL pour récupérer toutes les maps
-$sql = "SELECT sound_path, theme_path FROM monster_correct";
+require '../Database.php'; // Inclure le fichier de configuration de la base de données
+
+class HintAPI {
+    private $pdo;
+
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
+    }
+
+    public function getHints() {
+        $sql = "SELECT sound_path, theme_path FROM monster_correct";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
+
+function sendJsonResponse($response, $code = 200) {
+    http_response_code($code);
+    echo json_encode($response);
+}
 
 try {
-    // Préparer la requête SQL
-    $query = $pdo->prepare($sql);
+    $database = new Database();
+    $pdo = $database->connect();
+    $hintAPI = new HintAPI($pdo);
 
-    // Exécuter la requête
-    $query->execute();
-
-    // Récupérer toutes les lignes résultantes sous forme de tableau associatif
-    $hint = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    // Retourner les résultats au format JSON
-    header('Content-Type: application/json');
-    echo json_encode($hint);
+    $hints = $hintAPI->getHints();
+    sendJsonResponse($hints);
 } catch (PDOException $e) {
-    // En cas d'erreur, retourner une réponse d'erreur
-    http_response_code(500);
-    echo json_encode(array('message' => 'Erreur lors de la récupération des maps : ' . $e->getMessage()));
+    sendJsonResponse(array('message' => 'Erreur lors de la récupération des données : ' . $e->getMessage()), 500);
 }
 ?>

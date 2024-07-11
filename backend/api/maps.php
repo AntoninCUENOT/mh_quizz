@@ -1,28 +1,38 @@
 <?php
+// maps.php
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-// Inclure le fichier de configuration pour la connexion à la base de données
-require_once '../config.php';
 
-// Requête SQL pour récupérer toutes les maps
-$sql = "SELECT id, name FROM maps";
+require '../Database.php';
 
-try {
-    // Préparer la requête SQL
-    $query = $pdo->prepare($sql);
+class MapsAPI {
+    private $pdo;
 
-    // Exécuter la requête
-    $query->execute();
+    public function __construct() {
+        $database = new Database();
+        $this->pdo = $database->connect();
+    }
 
-    // Récupérer toutes les lignes résultantes sous forme de tableau associatif
-    $maps = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    // Retourner les résultats au format JSON
-    header('Content-Type: application/json');
-    echo json_encode($maps);
-} catch (PDOException $e) {
-    // En cas d'erreur, retourner une réponse d'erreur
-    http_response_code(500);
-    echo json_encode(array('message' => 'Erreur lors de la récupération des maps : ' . $e->getMessage()));
+    public function getMaps() {
+        $sql = "SELECT id, name FROM maps";
+        try {
+            $query = $this->pdo->prepare($sql);
+            $query->execute();
+            $maps = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $maps;
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(array('message' => 'Erreur lors de la récupération des maps : ' . $e->getMessage()));
+            exit;
+        }
+    }
 }
+
+// Utilisation de la classe pour récupérer les maps et renvoyer la réponse JSON
+$mapsAPI = new MapsAPI();
+$maps = $mapsAPI->getMaps();
+
+header('Content-Type: application/json');
+echo json_encode($maps);
 ?>

@@ -1,28 +1,38 @@
 <?php
+// types.php
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-// Inclure le fichier de configuration pour la connexion à la base de données
-require_once '../config.php';
 
-// Requête SQL pour récupérer tous les types de monstres
-$sql = "SELECT id, name FROM types";
+require '../Database.php';
 
-try {
-    // Préparer la requête
-    $query = $pdo->prepare($sql);
+class TypesAPI {
+    private $pdo;
 
-    // Exécuter la requête
-    $query->execute();
+    public function __construct() {
+        $database = new Database();
+        $this->pdo = $database->connect();
+    }
 
-    // Récupérer tous les résultats sous forme de tableau associatif
-    $types = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    // Renvoyer les données sous forme de JSON
-    header('Content-Type: application/json');
-    echo json_encode($types);
-} catch (PDOException $e) {
-    // En cas d'erreur PDO, renvoyer une erreur HTTP 500
-    http_response_code(500);
-    die(json_encode(['error' => 'Internal Server Error']));
+    public function getTypes() {
+        $sql = "SELECT id, name FROM types";
+        try {
+            $query = $this->pdo->prepare($sql);
+            $query->execute();
+            $types = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $types;
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Internal Server Error']);
+            exit;
+        }
+    }
 }
+
+// Utilisation de la classe pour récupérer les types de monstres et renvoyer la réponse JSON
+$typesAPI = new TypesAPI();
+$types = $typesAPI->getTypes();
+
+header('Content-Type: application/json');
+echo json_encode($types);
 ?>
