@@ -12,6 +12,7 @@ const Navigation = () => {
             await axios.delete(`http://localhost:8002/api/logout.php?user_id=${userId}`);
 
             // Supprimer les informations de session et de stockage local
+            localStorage.removeItem('userToken');
             localStorage.removeItem('userRole');
             localStorage.removeItem('userId');
             

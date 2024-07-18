@@ -25,15 +25,33 @@ class VerifyToken {
             $query = $pdo->prepare($sql);
             $query->bindParam(':token', $token, PDO::PARAM_STR);
             $query->execute();
-            
             // Vérification si le token correspond à une session valide
-            if ($query->rowCount() > 0) {
-                // Token valide, envoyer une réponse de succès
-                echo json_encode(array('success' => true));
+        if ($query->rowCount() > 0) {
+            // Récupérer user_id
+            $row = $query->fetch(PDO::FETCH_ASSOC);
+            $user_id = $row['user_id'];
+
+            // Requête pour récupérer les données de l'utilisateur
+            $sqlUser = "SELECT * FROM users WHERE id = :user_id";
+            $queryUser = $pdo->prepare($sqlUser);
+            $queryUser->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $queryUser->execute();
+
+            // Vérifier si l'utilisateur existe
+            if ($queryUser->rowCount() > 0) {
+                // Récupérer les données de l'utilisateur
+                $user = $queryUser->fetch(PDO::FETCH_ASSOC);
+
+                // Envoyer une réponse de succès avec le rôle de l'utilisateur
+                echo json_encode(['success' => true, 'role' => $user['role'], 'id' => $user['id']]);
             } else {
-                // Token invalide, envoyer une réponse d'échec
-                echo json_encode(array('success' => false));
+                // Utilisateur non trouvé dans la table users
+                echo json_encode(['success' => false, 'error' => 'User not found']);
             }
+        } else {
+            // Token invalide, envoyer une réponse d'échec
+            echo json_encode(['success' => false, 'error' => 'Invalid token']);
+        }
         } catch (PDOException $e) {
             // Erreur de connexion ou d'exécution de requête
             die("Erreur de vérification du token : " . $e->getMessage());
@@ -49,16 +67,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Vérification du token
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer le token depuis la requête POST
-    $token = $_POST['token'];
+    $data = json_decode(file_get_contents('php://input'), true);
+    $token = isset($data['token']) ? $data['token'] : null;
 
-    // Instanciation de la classe Database
-    $db = new Database();
-    
-    // Instanciation de la classe VerifyToken
-    $verifyToken = new VerifyToken($db);
-    
-    // Appel de la méthode verify pour vérifier le token
-    $verifyToken->verify($token);
+    if ($token !== null) {
+        // Instanciation de la classe Database
+        $db = new Database();
+        
+        // Instanciation de la classe VerifyToken
+        $verifyToken = new VerifyToken($db);
+        
+        // Appel de la méthode verify pour vérifier le token
+        $verifyToken->verify($token);
+    } else {
+        // Token non trouvé dans la requête POST
+        http_response_code(400);
+        echo json_encode(array('error' => 'Token not found in request'));
+    }
 } else {
     // Méthode HTTP non autorisée
     http_response_code(405);
