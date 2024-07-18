@@ -52,8 +52,9 @@ class MonsterAPI {
     }
 
     private function prepareResponse($userMonster, $correctMonster, $userInput) {
+        $utilisateurInput = htmlspecialchars($userInput);
         $response = array();
-        $response['correct_guess'] = ($userInput === $correctMonster['correct_name']);
+        $response['correct_guess'] = ($utilisateurInput === $correctMonster['correct_name']);
 
         // Formater les détails du monstre utilisateur pour l'affichage HTML avec les classes CSS appropriées
         $formatted_details = array();

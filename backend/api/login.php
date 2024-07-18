@@ -16,14 +16,19 @@ class UserAuthenticator {
     }
 
     public function authenticateUser($username, $password) {
+        $userAuth = htmlspecialchars($username);
+        $passwordHash = htmlspecialchars($password);
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = ? or  email = ?");
-        $stmt->execute([$username, $username]);
+        $stmt->execute([$userAuth, $userAuth]);
         $user = $stmt->fetch();
 
-        if ($user && password_verify($password, $user['password_hash'])) {
+        if ($user && password_verify($passwordHash, $user['password_hash'])) {
             $_SESSION['id'] = $user['id'];
             $_SESSION['role'] = $user['role']; // Assurez-vous que le rôle est récupéré depuis la base de données
-            return ['success' => true, 'role' => $user['role'], 'id' => $user['id']];
+            $token = password_hash(uniqid(), PASSWORD_BCRYPT);
+            $query = $this->pdo->prepare("INSERT INTO sessions (user_id, token) VALUES (?, ?)");
+            $query->execute([$user['id'], $token]);
+            return ['success' => true, 'role' => $user['role'], 'id' => $user['id'], "token" => $token];
         } else {
             return ['success' => false, 'message' => 'Invalid credentials'];
         }

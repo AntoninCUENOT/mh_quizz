@@ -1,15 +1,26 @@
 import { NavLink } from "react-router-dom";
+import axios from 'axios'; // Importer Axios
 
 const Navigation = () => {
     const userRole = localStorage.getItem('userRole');
     const userId = localStorage.getItem('userId');
 
-    const handleLogout = () => {
-        // Supprimer les informations de session et de stockage local
-        localStorage.removeItem('userRole');
-        localStorage.removeItem('userId');
-        // Rediriger vers la page de connexion
-        window.location.href = '/login';
+    // Fonction pour gérer la déconnexion
+    const handleLogout = async () => {
+        try {
+            // Envoyer une requête DELETE pour supprimer la session côté serveur
+            await axios.delete(`http://localhost:8002/api/logout.php?user_id=${userId}`);
+
+            // Supprimer les informations de session et de stockage local
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('userId');
+            
+            // Rediriger vers la page de connexion
+            window.location.href = '/login';
+        } catch (error) {
+            console.error('Error logging out:', error);
+            // Gérer l'erreur de déconnexion ici
+        }
     };
 
     return (
