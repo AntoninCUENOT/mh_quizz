@@ -17,8 +17,8 @@ class UserRegistration {
 
     public function registerUser($username, $email, $password) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $stmt = $this->pdo->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
-        return $stmt->execute([$username, $email, $hashedPassword]);
+        $query = $this->pdo->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
+        return $query->execute([$username, $email, $hashedPassword]);
     }
 }
 

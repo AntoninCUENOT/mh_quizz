@@ -13,7 +13,7 @@ class WallpaperUploader {
 
     public function uploadFile($file) {
         $targetDir = '../../src/assets/monsters/images/wallpaper/';
-        $fileName = "amatsu.jpg";
+        $fileName = "wallpaper.jpg";
         $targetFile = $targetDir . $fileName;
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));

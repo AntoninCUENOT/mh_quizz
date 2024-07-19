@@ -13,9 +13,9 @@ class HintAPI {
 
     public function getHints() {
         $sql = "SELECT sound_path, theme_path FROM monster_correct";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rqt = $this->pdo->prepare($sql);
+        $rqt->execute();
+        return $rqt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 

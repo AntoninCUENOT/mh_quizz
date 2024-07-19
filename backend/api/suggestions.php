@@ -16,10 +16,10 @@ class SuggestionsAPI {
     public function getSuggestions($query) {
         $query = htmlspecialchars(strip_tags($query)); // Sécuriser l'entrée utilisateur
         $sql = "SELECT name FROM monsters WHERE name LIKE ? LIMIT 10";
-        $stmt = $this->pdo->prepare($sql);
+        $rqt = $this->pdo->prepare($sql);
         $param = "%{$query}%";
-        $stmt->execute([$param]);
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $rqt->execute([$param]);
+        return $rqt->fetchAll(PDO::FETCH_COLUMN);
     }
 }
 

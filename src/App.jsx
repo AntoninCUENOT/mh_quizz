@@ -1,5 +1,6 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import axios from 'axios';
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import AdminMonster from "./pages/AdminMonster";
@@ -8,45 +9,74 @@ import AdminWallpaper from "./pages/AdminWallpaper";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 
-const PrivateRoute = ({ children }) => {
-  const userRole = localStorage.getItem('userRole');
-  return userRole === 'admin' ? children : <Navigate to="/" />;
+const PrivateRoute = ({ children, user }) => {
+  return user && user.role === 'admin' ? children : <Navigate to="/" />;
 };
 
-const LogRoute = ({ children }) => {
-  const userId = localStorage.getItem('userId');
-  return !userId ? children : <Navigate to="/" />;
+const LogRoute = ({ children, user }) => {
+  return !user ? children : <Navigate to="/" />;
 };
 
 const App = () => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const verifyToken = async (token) => {
+    try {
+      const response = await axios.post('http://localhost:8002/api/verify_token.php', { token });
+      if (response.data.success) {
+        setUser(response.data);
+      } else {
+        localStorage.removeItem('userToken');
+      }
+    } catch (error) {
+      console.error('Token verification error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('userToken');
+    if (token) {
+      verifyToken(token);
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  if (loading) {
+    return <h1 style={{textAlign: 'center'}}>Loading...</h1>;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Home />} />
         <Route path="/login" element={
-          <LogRoute>
+          <LogRoute user={user}>
             <Login />
           </LogRoute>
         } />
         <Route path="/signup" element={
-          <LogRoute>
+          <LogRoute user={user}>
             <SignUp />
           </LogRoute>
         } />
         <Route path="/guess-monster" element={<QuizzGuessMonster />} />
         <Route path="/admin" element={
-          <PrivateRoute>
+          <PrivateRoute user={user}>
             <Admin />
           </PrivateRoute>
         } />
         <Route path="/admin/monster" element={
-          <PrivateRoute>
+          <PrivateRoute user={user}>
             <AdminMonster />
           </PrivateRoute>
         } />
         <Route path="/admin/wallpaper" element={
-          <PrivateRoute>
+          <PrivateRoute user={user}>
             <AdminWallpaper />
           </PrivateRoute>
         } />

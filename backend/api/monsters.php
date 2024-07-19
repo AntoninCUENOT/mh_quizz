@@ -33,9 +33,9 @@ class MonsterAPI {
                   JOIN maps ON maps.id = mm.map_id
                   JOIN types t1 ON t1.id = mc.type_id
                   GROUP BY mc.id";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $rqt = $this->pdo->prepare($query);
+        $rqt->execute();
+        return $rqt->fetch(PDO::FETCH_ASSOC);
     }
 
     private function getUserMonster($name) {
@@ -46,9 +46,9 @@ class MonsterAPI {
                   JOIN types t2 ON t2.id = m.type_id
                   WHERE m.name = ?
                   GROUP BY m.id";
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute([$name]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $rqt = $this->pdo->prepare($query);
+        $rqt->execute([$name]);
+        return $rqt->fetch(PDO::FETCH_ASSOC);
     }
 
     private function prepareResponse($userMonster, $correctMonster, $userInput) {

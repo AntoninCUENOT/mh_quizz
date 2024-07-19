@@ -18,9 +18,9 @@ class UserAuthenticator {
     public function authenticateUser($username, $password) {
         $userAuth = htmlspecialchars($username);
         $passwordHash = htmlspecialchars($password);
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = ? or  email = ?");
-        $stmt->execute([$userAuth, $userAuth]);
-        $user = $stmt->fetch();
+        $rqt = $this->pdo->prepare("SELECT * FROM users WHERE username = ? or  email = ?");
+        $rqt->execute([$userAuth, $userAuth]);
+        $user = $rqt->fetch();
 
         if ($user && password_verify($passwordHash, $user['password_hash'])) {
             $_SESSION['id'] = $user['id'];

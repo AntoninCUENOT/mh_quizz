@@ -35,17 +35,17 @@ class MonsterCreator {
             // Insertion du monstre dans la table `monsters`
             $sql = "INSERT INTO monsters (name, type_id, color, size_min, size_max, description, image_path, sound_path, theme_path)
                     VALUES (:name, :type_id, :color, :size_min, :size_max, :description, :image_path, :sound_path, :theme_path)";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':type_id', $type_id);
-            $stmt->bindParam(':color', $color);
-            $stmt->bindParam(':size_min', $size_min);
-            $stmt->bindParam(':size_max', $size_max);
-            $stmt->bindParam(':description', $description);
-            $stmt->bindParam(':image_path', $image_path);
-            $stmt->bindParam(':sound_path', $sound_path);
-            $stmt->bindParam(':theme_path', $theme_path);
-            $stmt->execute();
+            $rqt = $this->pdo->prepare($sql);
+            $rqt->bindParam(':name', $name);
+            $rqt->bindParam(':type_id', $type_id);
+            $rqt->bindParam(':color', $color);
+            $rqt->bindParam(':size_min', $size_min);
+            $rqt->bindParam(':size_max', $size_max);
+            $rqt->bindParam(':description', $description);
+            $rqt->bindParam(':image_path', $image_path);
+            $rqt->bindParam(':sound_path', $sound_path);
+            $rqt->bindParam(':theme_path', $theme_path);
+            $rqt->execute();
 
             // Récupérer l'ID du monstre inséré
             $monsterId = $this->pdo->lastInsertId();
@@ -53,12 +53,12 @@ class MonsterCreator {
             // Insertion des associations dans la table `monster_map`
             if (!empty($maps)) {
                 $sql = "INSERT INTO monster_map (monster_id, map_id) VALUES (:monster_id, :map_id)";
-                $stmt = $this->pdo->prepare($sql);
+                $rqt = $this->pdo->prepare($sql);
     
                 foreach ($maps as $mapId) {
-                    $stmt->bindParam(':monster_id', $monsterId);
-                    $stmt->bindParam(':map_id', $mapId);
-                    $stmt->execute();
+                    $rqt->bindParam(':monster_id', $monsterId);
+                    $rqt->bindParam(':map_id', $mapId);
+                    $rqt->execute();
                 }
             }
 
