@@ -25,7 +25,9 @@ const Navigation = () => {
     };
 
     return (
-        <div style={navStyle}>
+        <>
+        <button className="menu-burger">|||</button>
+        <div className="nav-bar">
             <NavLink
                 style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
                 to="/"
@@ -72,13 +74,8 @@ const Navigation = () => {
                 </NavLink>
             )}
         </div>
+        </>
     );
-};
-
-const navStyle = {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    padding: '1em',
 };
 
 const linkStyle = {

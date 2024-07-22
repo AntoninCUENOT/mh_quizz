@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const NavigationAdmin = () => {
   return (
-    <div style={navStyle}>
+    <div className="nav-bar">
         <NavLink
             style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
             to="/"
@@ -23,12 +23,6 @@ const NavigationAdmin = () => {
         </NavLink>
     </div>
 );
-};
-
-const navStyle = {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    padding: '1em',
 };
 
 const linkStyle = {

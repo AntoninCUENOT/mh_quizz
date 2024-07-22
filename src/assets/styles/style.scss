@@ -4,6 +4,7 @@
 @import 'components/home';
 @import 'components/monsterForm';
 @import 'components/formUser';
+@import 'components/mediaqueries';
 
 
 .monster-details {
@@ -78,33 +79,11 @@
     padding: 10px;
     margin-bottom: 10px;
 }
-.reponses {
-    display: flex;
-    margin: 0.5rem;
-    p{
-        &.high-array{
-            border-radius: 8px;
-            font-size: 14px;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 5px;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            width: 80px;
-            height: 80px;
-            font-weight: bold;
-            text-transform: uppercase;
-            padding: 10px;
-            border: 1px solid rgb(255, 255, 255);
-        }
-    }
-}
+
 .reponse {
     display: flex;
     margin: 0.5rem;
-    p.incorrect-guess, p.correct-guess{
+    p.incorrect-guess, p.correct-guess, p.high-array{
         border-radius: 8px;
         font-size: 14px;
         text-align: center;
@@ -112,9 +91,8 @@
         justify-content: center;
         align-items: center;
         margin: 5px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        width: 80px;
+        min-width: 80px;
+        max-width: 80px;
         height: 80px;
         font-weight: bold;
         text-transform: uppercase;
@@ -124,8 +102,6 @@
     img{
         border-radius: 8px;
         margin: 5px;
-        padding-top: 10px;
-        padding-bottom: 10px;
         width: 80px;
         height: 80px;
         padding: 10px;
@@ -268,4 +244,14 @@ details[open] {
     background-color: #000000;
     border: 1px solid #ffffff;
     border-radius: 16px;
+}
+
+//RESPONSE FOR SCREEN RESPONSIVE
+.horizontal-scroll {
+    overflow-x: scroll;
+    max-width: 100vw;
+
+}
+.horizontal-scroll::-webkit-scrollbar {
+    display: none; 
 }

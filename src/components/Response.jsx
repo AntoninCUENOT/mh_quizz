@@ -97,18 +97,19 @@ const Response = ({ responseMessages }) => {
                     <p className='tentative'>Vous avez {5 - incorrectAttempts} tentatives incorrectes restantes avant de recevoir un indice</p>
                 )}
             </div>
-            <div className='reponses'>
-                <p className='high-array'><span>LOGO</span></p>
-                <p className='high-array'><span>MONSTRE</span></p>
-                <p className='high-array'><span>ESPECE</span></p>
-                <p className='high-array'><span>COULEUR</span></p>
-                <p className='high-array'><span>MAP 1</span></p>
-                <p className='high-array'><span>MAP 2</span></p>
-                <p className='high-array'><span>MAP 3</span></p>
-                <p className='high-array'><span>TAILLE MIN</span></p>
-                <p className='high-array'><span>TAILLE MAX</span></p>
-            </div>
-            <div className="all-responses">
+
+            <div className="all-responses horizontal-scroll">
+                <div className='reponse'>
+                    <p className='high-array'><span>LOGO</span></p>
+                    <p className='high-array'><span>MONSTRE</span></p>
+                    <p className='high-array'><span>ESPECE</span></p>
+                    <p className='high-array'><span>COULEUR</span></p>
+                    <p className='high-array'><span>MAP 1</span></p>
+                    <p className='high-array'><span>MAP 2</span></p>
+                    <p className='high-array'><span>MAP 3</span></p>
+                    <p className='high-array'><span>TAILLE MIN</span></p>
+                    <p className='high-array'><span>TAILLE MAX</span></p>
+                </div>
                 {responseMessages.map((response, index) => (
                     <div key={index} className={`result ${response.all_correct ? 'correct' : 'incorrect'}`}>
                         {response.all_correct && (
