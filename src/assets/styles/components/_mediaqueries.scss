@@ -10,9 +10,6 @@
         height: 80px;
     }
 
-    .suggestions {
-        width: 100%;
-    }
     .home-container {
         margin-top: 20vh;
         h1 {
@@ -22,10 +19,12 @@
             width: 90%;
         }
     }
-
+    .monster-formulaire{
+        padding: 2rem;
+    }
     .monster-form,
     .connection {
-        width: 90%;
+        margin-top: 20vh;
         padding: 2rem;
     }
     .horizontal-scroll::-webkit-scrollbar {

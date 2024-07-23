@@ -21,9 +21,9 @@ class Logout {
             $pdo = $this->db->connect();
             
             // Préparation de la requête SQL pour supprimer la session
-            $stmt = $pdo->prepare("DELETE FROM sessions WHERE user_id = :user_id");
-            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-            $stmt->execute();
+            $query = $pdo->prepare("DELETE FROM sessions WHERE user_id = :user_id");
+            $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $query->execute();
 
             // Répondre avec succès
             return array('success' => true, 'message' => 'Session deleted successfully');

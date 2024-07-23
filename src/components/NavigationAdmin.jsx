@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const NavigationAdmin = () => {
   return (
-    <div className="nav-bar">
+    <div className="nav-admin">
         <NavLink
             style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
             to="/"

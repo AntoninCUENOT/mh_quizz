@@ -6,28 +6,38 @@ const MonsterInput = ({ onSubmit }) => {
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
+    const [hasSuggestions, setHasSuggestions] = useState(true); // Added state to manage suggestions availability
 
     const fetchSuggestions = async (query) => {
         if (query.length < 2) {
             setSuggestions([]);
             setShowSuggestions(false);
+            setHasSuggestions(false); // No suggestions available
             return;
         }
 
         try {
             const response = await axios.get(`http://localhost:8002/api/suggestions.php?q=${query}`);
-            setSuggestions(response.data);
+            const filteredSuggestions = response.data.filter(suggestion => {
+                const savedSuggestions = JSON.parse(localStorage.getItem('suggestions') || '[]');
+                return !savedSuggestions.includes(suggestion);
+            });
+
+            setSuggestions(filteredSuggestions);
             setShowSuggestions(true);
+            setHasSuggestions(filteredSuggestions.length > 0); // Check if there are any suggestions
         } catch (error) {
             console.error('Error fetching suggestions:', error);
+            setHasSuggestions(false); // No suggestions available
         }
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        onSubmit(userInput);
-        setUserInput(''); // Reset user input after submission
-        setShowSuggestions(false); // Hide suggestions after submission
+        if (hasSuggestions) { // Check if suggestions are available before submission
+            setUserInput(''); // Reset user input after submission
+            setShowSuggestions(false); // Hide suggestions after submission
+        }
     };
 
     const handleChange = (e) => {
@@ -42,14 +52,21 @@ const MonsterInput = ({ onSubmit }) => {
         setSuggestions([]);
         setShowSuggestions(false);
         onSubmit(suggestion); // Appel à onSubmit avec la suggestion choisie
+        saveSuggestion(suggestion);
         setUserInput('');
     };
 
     const handleKeyDown = (e) => {
         if (e.keyCode === 13) { // Enter key
-            setUserInput(suggestions[activeSuggestionIndex]);
-            setSuggestions([]);
-            setShowSuggestions(false);
+            const selectedSuggestion = suggestions[activeSuggestionIndex];
+            if (selectedSuggestion) { // Ensure suggestion exists before submitting
+                setUserInput(selectedSuggestion);
+                setSuggestions([]);
+                setShowSuggestions(false);
+                saveSuggestion(selectedSuggestion);
+                onSubmit(selectedSuggestion); // Appel à onSubmit avec la suggestion choisie
+                setUserInput('');
+            }
         } else if (e.keyCode === 38) { // Up arrow
             if (activeSuggestionIndex > 0) {
                 setActiveSuggestionIndex(activeSuggestionIndex - 1);
@@ -58,6 +75,14 @@ const MonsterInput = ({ onSubmit }) => {
             if (activeSuggestionIndex < suggestions.length - 1) {
                 setActiveSuggestionIndex(activeSuggestionIndex + 1);
             }
+        }
+    };
+
+    const saveSuggestion = (suggestion) => {
+        const savedSuggestions = JSON.parse(localStorage.getItem('suggestions') || '[]');
+        if (!savedSuggestions.includes(suggestion)) {
+            savedSuggestions.push(suggestion);
+            localStorage.setItem('suggestions', JSON.stringify(savedSuggestions));
         }
     };
 
@@ -100,6 +125,7 @@ const MonsterInput = ({ onSubmit }) => {
                 onKeyDown={handleKeyDown}
             />
             {renderSuggestions()}
+            <button type="submit" disabled={!hasSuggestions}></button>
         </form>
     );
 };

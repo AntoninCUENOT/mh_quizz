@@ -39,11 +39,11 @@ class WallpaperUploader {
             $path = './src/assets/monsters/images/wallpaper/' . $fileName;
 
             // Insertion dans la base de données
-            $stmt = $this->pdo->prepare("UPDATE wallpaper SET name = :name, path = :path WHERE id = 1");
-            $stmt->bindParam(':name', $fileName);
-            $stmt->bindParam(':path', $path);
+            $query = $this->pdo->prepare("UPDATE wallpaper SET name = :name, path = :path WHERE id = 1");
+            $query->bindParam(':name', $fileName);
+            $query->bindParam(':path', $path);
 
-            if ($stmt->execute()) {
+            if ($query->execute()) {
                 return ['status' => 'success', 'message' => 'File uploaded and saved in database.'];
             } else {
                 throw new Exception('Error inserting into database.');
