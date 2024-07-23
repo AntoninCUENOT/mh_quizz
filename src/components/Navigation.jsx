@@ -1,79 +1,102 @@
+import { useState } from 'react';
 import { NavLink } from "react-router-dom";
-import axios from 'axios'; // Importer Axios
+import axios from 'axios';
 
 const Navigation = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false); // Nouvel état pour gérer la fermeture
     const userRole = localStorage.getItem('userRole');
     const userId = localStorage.getItem('userId');
 
-    // Fonction pour gérer la déconnexion
     const handleLogout = async () => {
         try {
-            // Envoyer une requête DELETE pour supprimer la session côté serveur
             await axios.delete(`http://localhost:8002/api/logout.php?user_id=${userId}`);
-
-            // Supprimer les informations de session et de stockage local
             localStorage.removeItem('userToken');
             localStorage.removeItem('userRole');
             localStorage.removeItem('userId');
-            
-            // Rediriger vers la page de connexion
             window.location.href = '/login';
         } catch (error) {
             console.error('Error logging out:', error);
-            // Gérer l'erreur de déconnexion ici
         }
+    };
+
+    const toggleMenu = () => {
+        if (isMenuOpen) {
+            setIsClosing(true);
+            setTimeout(() => {
+                setIsMenuOpen(false);
+                setIsClosing(false);
+            }, 1500); // Durée de l'animation
+        } else {
+            setIsMenuOpen(true);
+        }
+    };
+
+    const closeMenu = () => {
+        setIsClosing(true);
+        setTimeout(() => {
+            setIsMenuOpen(false);
+            setIsClosing(false);
+        }, 1000); // Durée de l'animation
     };
 
     return (
         <>
-        <button className="menu-burger">|||</button>
-        <div className="nav-bar">
-            <NavLink
-                style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
-                to="/"
-            >
-                <h2>HOME</h2>
-            </NavLink>
-            <NavLink
-                style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
-                to="/guess-monster"
-            >
-                <h2>GUESS MONSTER</h2>
-            </NavLink>
-            {!userId && (
+            <button className={`menu-burger ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+                {isMenuOpen ? 'X' : '|||'}
+            </button>
+            <div className={`nav-bar ${isMenuOpen ? 'open' : ''} ${isClosing ? 'close' : ''}`}>
                 <NavLink
                     style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
-                    to="/signup"
+                    to="/"
+                    onClick={closeMenu}
                 >
-                    <h2>SIGN UP</h2>
+                    <h2>HOME</h2>
                 </NavLink>
-            )}
-            {!userId && (
                 <NavLink
                     style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
-                    to="/login"
+                    to="/guess-monster"
+                    onClick={closeMenu}
                 >
-                    <h2>LOGIN</h2>
+                    <h2>GUESS MONSTER</h2>
                 </NavLink>
-            )}
-            {userId && (
-                <NavLink
-                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
-                    to="/logout"
-                    onClick={handleLogout} // Ajouter la fonction de logout au clic
-                >
-                    <h2>LOGOUT</h2>
-                </NavLink>
-            )}
-            {userRole === 'admin' && (
-                <NavLink
-                    style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
-                    to="/admin"
-                >
-                    <h2>ADMIN</h2>
-                </NavLink>
-            )}
-        </div>
+                {!userId && (
+                    <NavLink
+                        style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                        to="/signup"
+                        onClick={closeMenu}
+                    >
+                        <h2>SIGN UP</h2>
+                    </NavLink>
+                )}
+                {!userId && (
+                    <NavLink
+                        style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                        to="/login"
+                        onClick={closeMenu}
+                    >
+                        <h2>LOGIN</h2>
+                    </NavLink>
+                )}
+                {userId && (
+                    <NavLink
+                        style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                        to="/logout"
+                        onClick={() => { handleLogout(); closeMenu(); }}
+                    >
+                        <h2>LOGOUT</h2>
+                    </NavLink>
+                )}
+                {userRole === 'admin' && (
+                    <NavLink
+                        style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                        to="/admin"
+                        onClick={closeMenu}
+                    >
+                        <h2>ADMIN</h2>
+                    </NavLink>
+                )}
+            </div>
         </>
     );
 };

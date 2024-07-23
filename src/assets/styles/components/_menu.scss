@@ -1,36 +1,76 @@
-.menu-burger {
-    display: none;
-}
 .nav-bar {
     display: flex;
     justify-content: space-evenly;
     padding: 1em;
-}
 
-@media screen and (max-width: 768px),(max-width: 480px),(max-width: 1200px){
-    .menu-burger {
-        display: block;
-    }
-    .nav-bar {
-        display: none;
+    @media screen and (max-width: 1200px), (max-width: 768px), (max-width: 480px) {
+        display: none;  // Cacher le menu par défaut sur les petits écrans
         flex-direction: column;
-        text-align: center;
         align-items: center;
+        text-align: center;
         position: fixed;
-        background: rgba(0, 0, 0, 0.875);
+        left: calc(50% - 155px); 
+        top: calc(50% - 219px); 
+        background-color: rgba(0, 0, 0, 0.875);
         border-radius: 64px;
         border: 1px solid white;
-        left: calc(50% - 154px);
-        top: calc(50% - 218px);
-        margin: 1rem;
         z-index: 1;
-        box-shadow: 10px 10px 15px rgba(0,0,0,0.6);
-        a{
+        box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.6);
+
+        &.open {
+            display: flex;  // Afficher le menu lorsqu'il est ouvert
+            animation: showAnimation 1.5s forwards;
+        }
+        &.close {
+            animation: hideAnimation 1.5s forwards;
+        }
+
+        a {
             width: 60%;
-            h2{
+            h2 {
                 font-size: 1.5em;
             }
         }
     }
 }
 
+.menu-burger {
+    display: none;  // Cacher le bouton par défaut
+    transform: rotate(270deg);
+
+    @media screen and (max-width: 1200px), (max-width: 768px), (max-width: 480px) {
+        display: block;  // Afficher le bouton sur les petits écrans
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        font-size: 3em;
+        background: none;
+        border: none;
+        padding: 0px 8px 8px 8px;
+        cursor: pointer;
+        z-index: 1001;
+        background-color: rgba(0, 0, 0, 0.75);
+        border-radius: 48px;
+        &.open {
+            padding: 3px 10px 0px 10px;
+        }
+    }
+}
+
+// Styles des liens de navigation
+.nav-bar a {
+    text-decoration: none;
+    color: black;
+    font-size: 1em;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.813);
+    padding: 1em;
+    margin: 1em;
+    background: black;
+    border-radius: 64px;
+    border: 1px solid white;
+    transition: background 0.3s ease-in-out;
+
+    &.active {
+        background: rgba(100, 100, 100, 0.8);  // Style du lien actif
+    }
+}

@@ -13,13 +13,14 @@
     .suggestions {
         width: 100%;
     }
-
-    .home-container h1 {
-        font-size: 1.5rem;
-    }
-
-    .home-container input {
-        width: 80%;
+    .home-container {
+        margin-top: 20vh;
+        h1 {
+            font-size: 1.5rem;
+        }
+        input {
+            width: 90%;
+        }
     }
 
     .monster-form,
