@@ -28,19 +28,42 @@
         padding: 2rem;
     }
     .horizontal-scroll::-webkit-scrollbar {
-        height: 1rem; /* Hauteur de la barre de défilement */
+        display: none; 
+    } 
+    /* Style de la piste de la scrollbar */
+    .show-scrollbar::-webkit-scrollbar-track {
+        background: #000000; /* Couleur de fond de la piste */
+        border-radius: 10px; /* Coins arrondis de la piste */
+        margin: 10px; /* Marges pour espacer la scrollbar */
+        border: 2px solid white;
     }
-    
-    .horizontal-scroll::-webkit-scrollbar-track {
-        background: #f1f1f1; /* Couleur de fond de la piste */
+
+    /* Style de la barre de défilement */
+    .show-scrollbar::-webkit-scrollbar-thumb {
+        background: #ffffff; /* Couleur de la barre de défilement */
+        border-radius: 10px; /* Coins arrondis de la barre */
     }
-    
-    .horizontal-scroll::-webkit-scrollbar-thumb {
-        background: #888; /* Couleur de la barre de défilement */
-    }
-    
-    .horizontal-scroll::-webkit-scrollbar-thumb:hover {
+
+    /* Style de la barre de défilement au survol */
+    .show-scrollbar::-webkit-scrollbar-thumb:hover {
         background: #555; /* Couleur de la barre de défilement au survol */
     }
+
+    /* Largeur de la scrollbar */
+    .show-scrollbar::-webkit-scrollbar {
+        width: 12px; /* Largeur de la scrollbar */
+        height: 12px; /* Hauteur de la scrollbar */
+    }
+
+    .show-scrollbar::-webkit-scrollbar {
+        display: block; /* Afficher la scrollbar */
+    }   
 }
+
+@media screen and (min-width: 1200px){
+    .horizontal-scroll::-webkit-scrollbar {
+        display: none; 
+    } 
+}
+
 

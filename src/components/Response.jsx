@@ -71,7 +71,29 @@ const Response = ({ responseMessages }) => {
         setIncorrectAttempts(incorrectResponses);
     }, [responseMessages]);
 
+    // Ajouter les listeners de toucher
+    useEffect(() => {
+        const container = document.querySelector('.all-responses.horizontal-scroll');
+        const handleTouchStart = () => {
+            container.classList.add('show-scrollbar');
+        };
+        const handleTouchEnd = () => {
+            container.classList.remove('show-scrollbar');
+        };
 
+        if (container) {
+            container.addEventListener('touchstart', handleTouchStart);
+            container.addEventListener('touchend', handleTouchEnd);
+        }
+
+        return () => {
+            if (container) {
+                container.removeEventListener('touchstart', handleTouchStart);
+                container.removeEventListener('touchend', handleTouchEnd);
+                container.classList.remove('show-scrollbar');
+            }
+        };
+    }, []);
 
     return (
         <>
