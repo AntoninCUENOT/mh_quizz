@@ -16,9 +16,8 @@ const QuizzGuessMonster = () => {
         const currentUTCHour = now.getUTCHours();
         const localOffset = now.getTimezoneOffset() / 60; // Décalage en heures par rapport à UTC
         const localHour = (currentUTCHour - localOffset + 24) % 24; // Heure locale ajustée pour UTC
-    
-        // Définir l'heure locale de nettoyage (1h du matin dans le fuseau horaire local)
-        const cleanupHourLocal = 1; // 1h du matin dans le fuseau horaire local
+        // Définir l'heure locale de nettoyage
+        const cleanupHourLocal = 1; 
     
         // Récupérer la dernière date et heure de nettoyage du localStorage
         const lastCleanupDate = localStorage.getItem('lastCleanupDate');
@@ -103,6 +102,7 @@ const QuizzGuessMonster = () => {
         setIsAnswer(false);
         localStorage.removeItem('submittedProposals');
         localStorage.removeItem('correctAnswer');
+        localStorage.removeItem('suggestions');
         localStorage.removeItem('answer');
     };
 
