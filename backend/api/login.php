@@ -28,7 +28,7 @@ class UserAuthenticator {
             $token = password_hash(uniqid(), PASSWORD_BCRYPT);
             $query = $this->pdo->prepare("INSERT INTO sessions (user_id, token) VALUES (?, ?)");
             $query->execute([$user['id'], $token]);
-            return ['success' => true, 'role' => $user['role'], 'id' => $user['id'], "token" => $token];
+            return ['success' => true, 'role' => $user['role'], 'id' => $user['id'], "token" => $token, 'name' => $user['username']];
         } else {
             return ['success' => false, 'message' => 'Invalid credentials'];
         }

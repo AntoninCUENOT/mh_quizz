@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const MonsterForm = () => {
+const MonsterForm = ({ monsterId, onSubmit, isEditMode }) => {
     const [formData, setFormData] = useState({
         name: '',
         type_id: '',
@@ -17,26 +17,56 @@ const MonsterForm = () => {
     const [maps, setMaps] = useState([]);
     const [selectedMaps, setSelectedMaps] = useState([]);
     const [types, setTypes] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        // Charger la liste des maps depuis le backend lors du chargement initial du composant
+        // Charger la liste des types et des maps
         axios.get('http://localhost:8002/api/maps.php')
             .then(response => {
                 setMaps(response.data);
             })
             .catch(error => {
                 console.error('Error fetching maps:', error);
+                setError('Error fetching maps');
             });
 
-        // Charger la liste des types depuis le backend
         axios.get('http://localhost:8002/api/types.php')
             .then(response => {
                 setTypes(response.data);
             })
             .catch(error => {
                 console.error('Error fetching types:', error);
+                setError('Error fetching types');
             });
-    }, []);
+
+        // Charger les données du monstre si nous sommes en mode édition
+        if (monsterId) {
+            axios.get(`http://localhost:8002/api/get_monsters.php?monsterId=${monsterId}`)
+                .then(response => {
+                    const monster = response.data;
+                    setFormData({
+                        name: monster.name || '',
+                        type_id: monster.type_id || '',
+                        color: monster.color || '',
+                        size_min: monster.size_min || '',
+                        size_max: monster.size_max || '',
+                        description: monster.description || '',
+                        image: null,
+                        sound: null,
+                        theme: null,
+                    });
+                    setSelectedMaps(monster.maps || []);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error fetching monster:', error);
+                    setError('Error fetching monster');
+                });
+        } else {
+            setLoading(false);
+        }
+    }, [monsterId]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -79,35 +109,27 @@ const MonsterForm = () => {
         postData.append('maps', JSON.stringify(selectedMaps));
 
         try {
-            const response = await axios.post('http://localhost:8002/api/create_monster.php', postData, {
+            const url = isEditMode ? `http://localhost:8002/api/update_monster.php?id=${monsterId}` : 'http://localhost:8002/api/create_monster.php';
+            const response = await axios.post(url, postData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log('Monster created successfully:', response.data);
-            // Réinitialiser le formulaire ou afficher un message de succès
-            setFormData({
-                name: '',
-                type_id: '',
-                color: '',
-                size_min: '',
-                size_max: '',
-                description: '',
-                image: null,
-                sound: null,
-                theme: null,
-            });
-            setSelectedMaps([]);
+            console.log('Monster ' + (isEditMode ? 'updated' : 'created') + ' successfully:', response.data);
+            if (onSubmit) onSubmit();  // Callback pour signaler la soumission réussie
         } catch (error) {
-            console.error('Error creating monster:', error);
+            console.error('Error ' + (isEditMode ? 'updating' : 'creating') + ' monster:', error);
             // Gérer les erreurs
         }
     };
 
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+
     return (
         <div className='monster-formulaire'>
             <form onSubmit={handleSubmit} className='monster-form'>
-                <h2>Create Monster</h2>
+                <h2>{isEditMode ? 'Edit Monster' : 'Create Monster'}</h2>
                 <label>Name:</label>
                 <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
                 
@@ -152,12 +174,12 @@ const MonsterForm = () => {
                                 checked={selectedMaps.includes(map.id.toString())}
                                 onChange={handleMapSelection}
                             />
-                            <label htmlFor={`map-${map.id}`} >{map.name}</label>
+                            <label htmlFor={`map-${map.id}`}>{map.name}</label>
                         </div>
                     ))}
                 </div>
 
-                <button type="submit">Create Monster</button>
+                <button type="submit">{isEditMode ? 'Update Monster' : 'Create Monster'}</button>
             </form>
         </div>
     );

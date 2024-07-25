@@ -21,6 +21,12 @@ const NavigationAdmin = () => {
         >
             <h2>WALLPAPER</h2>
         </NavLink>
+        <NavLink
+            style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+            to="/admin/listmonster"
+        >
+            <h2>MONSTER LIST</h2>
+        </NavLink>
     </div>
 );
 };

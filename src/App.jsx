@@ -8,6 +8,9 @@ import QuizzGuessMonster from "./pages/QuizzGuessMonster";
 import AdminWallpaper from "./pages/AdminWallpaper";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import AdminListMonster from "./pages/AdminListMonster";
+import AdminEditMonster from "./pages/AdminEditMonster";
 
 const PrivateRoute = ({ children, user }) => {
   return user && user.role === 'admin' ? children : <Navigate to="/" />;
@@ -64,6 +67,11 @@ const App = () => {
             <SignUp />
           </LogRoute>
         } />
+        <Route path="/profile" element={
+          <LogRoute user={!user}>
+            <Profile />
+          </LogRoute>
+        } />
         <Route path="/guess-monster" element={<QuizzGuessMonster />} />
         <Route path="/admin" element={
           <PrivateRoute user={user}>
@@ -78,6 +86,16 @@ const App = () => {
         <Route path="/admin/wallpaper" element={
           <PrivateRoute user={user}>
             <AdminWallpaper />
+          </PrivateRoute>
+        } />
+        <Route path="/admin/listmonster" element={
+          <PrivateRoute user={user}>
+            <AdminListMonster />
+          </PrivateRoute>
+        } />
+        <Route path="/admin/edit-monster/:monsterId" element={
+          <PrivateRoute user={user}>
+            <AdminEditMonster />
           </PrivateRoute>
         } />
       </Routes>

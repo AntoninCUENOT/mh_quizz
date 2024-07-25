@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 25 juil. 2024 à 09:02
+-- Généré le : jeu. 25 juil. 2024 à 16:21
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -66,7 +66,7 @@ INSERT INTO `maps` (`id`, `name`) VALUES
 (27, 'Grand océan'),
 (28, 'Sanctuaire'),
 (29, 'Pointe de lance'),
-(30, "Île d\'Ingle"),
+(30, 'Île d\'Ingle'),
 (31, 'Pinacle'),
 (32, 'Champ de bataille'),
 (33, 'Fort Schrade'),
@@ -100,7 +100,7 @@ CREATE TABLE `monsters` (
 --
 
 INSERT INTO `monsters` (`id`, `name`, `type_id`, `color`, `size_min`, `size_max`, `description`, `image_path`, `sound_path`, `theme_path`) VALUES
-(1, 'rathian', 11, 'vert', 1151, 2303, 'Reine des terres', '../../src/assets/monsters/images/rathian_rathian.png', '', '../../src/assets/monsters/themes/rathian_Monster Hunter ~ Ancient Rhythm  Rathian (OST).mp3'),
+(1, 'rathian', 11, 'verte', 1151, 2303, 'Reine des terres', '../../src/assets/monsters/images/rathian_rathian.png', NULL, '../../src/assets/monsters/themes/rathian_Monster Hunter ~ Ancient Rhythm  Rathian (OST).mp3'),
 (2, 'rathalos', 11, 'rouge', 1140, 2248, 'Roi des cieux', '../../src/assets/monsters/images/rathalos_rathalos.png', '', '../../src/assets/monsters/themes/rathalos_Monster Hunter OST  Rathalos Theme.mp3'),
 (3, 'nargacuga', 11, 'noir', 1377, 2066, 'Ombre bondissante', '../../src/assets/monsters/images/nargacuga_nargacuga.png', '../../src/assets/monsters/sounds/nargacuga_Nargacuga Silver Wind Nargacuga Roars.mp3', '../../src/assets/monsters/themes/nargacuga_Nargacuga  ナルガクルガ - Battle Theme [ Monster Hunter World Iceborne  モンスターハンターワールド：アイスボーン ].mp3'),
 (4, 'alatreon', 18, 'noir', 3105, 3105, 'Dragon noir Ardent', '../../src/assets/monsters/images/alatreon_alatreon.png', '../../src/assets/monsters/sounds/alatreon_Monster Hunter Roars Alatreon Roar Comparison.mp3', '../../src/assets/monsters/themes/alatreon_MHW Iceborne OST Alatreon Theme.mp3');
@@ -151,6 +151,7 @@ INSERT INTO `monster_map` (`monster_id`, `map_id`) VALUES
 (1, 2),
 (1, 3),
 (1, 4),
+(1, 5),
 (1, 6),
 (1, 7),
 (1, 8),
@@ -159,7 +160,6 @@ INSERT INTO `monster_map` (`monster_id`, `map_id`) VALUES
 (1, 11),
 (1, 12),
 (1, 13),
-(1, 16),
 (2, 1),
 (2, 2),
 (2, 3),
@@ -185,6 +185,27 @@ INSERT INTO `monster_map` (`monster_id`, `map_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `scores`
+--
+
+CREATE TABLE `scores` (
+  `id` int(11) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `answer` int(11) DEFAULT NULL,
+  `answer_correct` int(11) DEFAULT NULL,
+  `answer_hint` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Déchargement des données de la table `scores`
+--
+
+INSERT INTO `scores` (`id`, `user_id`, `answer`, `answer_correct`, `answer_hint`) VALUES
+(1, 2, 10, 5, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `sessions`
 --
 
@@ -200,7 +221,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `token`, `expires_at`) VALUES
-(33, 2, '$2y$10$LO5ChdIYyo0fBoWoJm44LewQz2iOxi9OcpKKxwy5x4rXFKDmlHe82', '2024-08-23 09:42:27');
+(36, 2, '$2y$10$OzX.98puhP1Dy0DD.Wvzs.wQmudMFvlyQX.0WqfU7G2YmIjNRpFo6', '2024-08-24 09:06:56');
 
 --
 -- Déclencheurs `sessions`
@@ -330,6 +351,13 @@ ALTER TABLE `monster_map`
   ADD KEY `fk_map_id` (`map_id`);
 
 --
+-- Index pour la table `scores`
+--
+ALTER TABLE `scores`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Index pour la table `sessions`
 --
 ALTER TABLE `sessions`
@@ -374,7 +402,7 @@ ALTER TABLE `maps`
 -- AUTO_INCREMENT pour la table `monsters`
 --
 ALTER TABLE `monsters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `monster_correct`
@@ -383,10 +411,16 @@ ALTER TABLE `monster_correct`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT pour la table `scores`
+--
+ALTER TABLE `scores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT pour la table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT pour la table `types`
@@ -428,6 +462,12 @@ ALTER TABLE `monster_correct`
 ALTER TABLE `monster_map`
   ADD CONSTRAINT `fk_map_id` FOREIGN KEY (`map_id`) REFERENCES `maps` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_monster_id` FOREIGN KEY (`monster_id`) REFERENCES `monsters` (`id`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `scores`
+--
+ALTER TABLE `scores`
+  ADD CONSTRAINT `scores_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `sessions`

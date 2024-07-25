@@ -20,6 +20,7 @@ const Login = () => {
                 localStorage.setItem('userRole', response.data.role);
                 localStorage.setItem('userId', response.data.id);
                 localStorage.setItem('userToken', response.data.token);
+                localStorage.setItem('userName', response.data.name);
                 const redirectPath = response.data.role === 'admin' ? '/admin' : '/';
                 window.location.href = redirectPath;
             } else {

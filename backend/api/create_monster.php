@@ -19,17 +19,17 @@ class MonsterCreator {
             // Gestion des téléchargements d'image, de son et de thème
             $image_path = null;
             if (!empty($image)) {
-                $image_path = $this->handleFileUpload($image, '../src/assets/monsters/images/', $name);
+                $image_path = $this->handleFileUpload($image, '../../src/assets/monsters/images/', $name);
             }
 
             $sound_path = null;
             if (!empty($sound)) {
-                $sound_path = $this->handleFileUpload($sound, '../src/assets/monsters/sounds/', $name);
+                $sound_path = $this->handleFileUpload($sound, '../../src/assets/monsters/sounds/', $name);
             }
 
             $theme_path = null;
             if (!empty($theme)) {
-                $theme_path = $this->handleFileUpload($theme, '../src/assets/monsters/themes/', $name);
+                $theme_path = $this->handleFileUpload($theme, '../../src/assets/monsters/themes/', $name);
             }
 
             // Insertion du monstre dans la table `monsters`

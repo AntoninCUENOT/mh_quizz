@@ -81,6 +81,15 @@ const Navigation = () => {
                 {userId && (
                     <NavLink
                         style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+                        to="/profile"
+                        onClick={closeMenu}
+                    >
+                        <h2>PROFILE</h2>
+                    </NavLink>
+                )}
+                {userId && (
+                    <NavLink
+                        style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
                         to="/logout"
                         onClick={() => { handleLogout(); closeMenu(); }}
                     >

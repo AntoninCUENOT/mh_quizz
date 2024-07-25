@@ -1,8 +1,8 @@
-.monster-formulaire {
+.monster-formulaire, .hunter-formulaire {
     display: flex;
     justify-content: center;
 }
-.monster-form {
+.monster-form, .hunter-form, .hunter-score {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,35 +12,47 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     background-color: #000000;
-}
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="file"],
+    select,
+    textarea,
+    p {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #000000;
+    }
+    select {
+        background-color: #000000;
+    }
+    input[type="file"] {
+        padding: 0;
+    }
 
-.monster-form label {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.monster-form input[type="text"],
-.monster-form input[type="number"],
-.monster-form input[type="file"],
-.monster-form select,
-.monster-form textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #000000;
-}
-.monster-form select {
-    background-color: #000000;
-}
-.monster-form input[type="file"] {
-    padding: 0;
-}
-
-.monster-form textarea {
-    height: 100px;
-    resize: vertical;
+    textarea {
+        height: 100px;
+        resize: vertical;
+    }
+    button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: rgb(255, 255, 255);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
 }
 
 .maps-container {
@@ -59,16 +71,3 @@
     margin-right: 5px;
 }
 
-.monster-form button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: rgb(255, 255, 255);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.monster-form button[type="submit"]:hover {
-    background-color: #45a049;
-}
