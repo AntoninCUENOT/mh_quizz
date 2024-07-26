@@ -23,6 +23,9 @@ npm install
 Configurer le backend
 Naviguez dans le répertoire du backend :
 
+Le fichier quizz_mh.sql pour les données du quizz.
+Vous pouvez crée un compte et parcourir le projet.
+
 cd /backend
 Assurez-vous que vous avez un fichier de configuration de base de données (Database.php) configuré avec vos paramètres de connexion à la base de données.
 
