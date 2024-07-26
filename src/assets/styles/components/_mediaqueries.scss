@@ -10,6 +10,14 @@
         height: 80px;
     }
 
+    .profil {
+        display: flex;
+        flex-direction: column;
+        .hunter-form {
+            margin: 3rem;
+        }
+    }
+
     .home-container {
         margin-top: 20vh;
         h1 {

@@ -55,7 +55,7 @@ const Profile = () => {
     return (
         <>
             <Navigation />
-            <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+            <div className='profil' style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                 <div className='hunter-formulaire'>
                     {isFormVisible && (<form className='hunter-form' onSubmit={handleSubmit}>
                         <h2 style={{ textTransform: 'uppercase' }}>{userName}'S PROFILE</h2>
