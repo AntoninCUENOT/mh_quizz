@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 25 juil. 2024 à 16:21
+-- Généré le : ven. 26 juil. 2024 à 10:54
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -190,10 +190,10 @@ INSERT INTO `monster_map` (`monster_id`, `map_id`) VALUES
 
 CREATE TABLE `scores` (
   `id` int(11) NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `answer` int(11) DEFAULT NULL,
-  `answer_correct` int(11) DEFAULT NULL,
-  `answer_hint` int(11) DEFAULT NULL
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `answer` int(11) DEFAULT 0,
+  `answer_correct` int(11) DEFAULT 0,
+  `answer_hint` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -201,7 +201,8 @@ CREATE TABLE `scores` (
 --
 
 INSERT INTO `scores` (`id`, `user_id`, `answer`, `answer_correct`, `answer_hint`) VALUES
-(1, 2, 10, 5, 2);
+(1, 2, 31, 6, 2),
+(2, 8, 4, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -215,13 +216,6 @@ CREATE TABLE `sessions` (
   `token` varchar(255) NOT NULL,
   `expires_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Déchargement des données de la table `sessions`
---
-
-INSERT INTO `sessions` (`id`, `user_id`, `token`, `expires_at`) VALUES
-(36, 2, '$2y$10$OzX.98puhP1Dy0DD.Wvzs.wQmudMFvlyQX.0WqfU7G2YmIjNRpFo6', '2024-08-24 09:06:56');
 
 --
 -- Déclencheurs `sessions`
@@ -296,7 +290,8 @@ INSERT INTO `users` (`id`, `username`, `password_hash`, `email`, `created_at`, `
 (4, 'test', '$2y$10$mPHKRYQVSfC4lbvv6mz74O9z97oq2dLJfRaMzwOIimiGl6uCKm4hu', 'test@test', '2024-07-18 07:39:32', 'user'),
 (5, 'esin', '$2y$10$so0aTj6m7ggCqOLteTieVOMr0.FnMaW20L/Lq6pR.uQe9sLwZ74Py', 'esin@esin', '2024-07-18 10:14:15', 'user'),
 (6, 'ace', '$2y$10$gEpPRudUetoPW5keRkgSP..2/qtHqOOQ8XEPuBrgmzW72LMe5ePUO', 'ace@ace', '2024-07-18 13:08:09', 'user'),
-(7, 'azerty', '$2y$10$S45RdnQQpbYovNVBSoR/weRPdSp4ZtVtTbHT/6AC4RNp71mc.oR3O', 'azerty@azerty', '2024-07-18 13:10:30', 'user');
+(7, 'azerty', '$2y$10$S45RdnQQpbYovNVBSoR/weRPdSp4ZtVtTbHT/6AC4RNp71mc.oR3O', 'azerty@azerty', '2024-07-18 13:10:30', 'user'),
+(8, 'emilie', '$2y$10$sRxX1d5sgvQ/k29mzrSQde4S7Ks8JjVGHvWF52wysrjO5GXdqKGv2', 'emilie@emilie.fr', '2024-07-26 08:52:25', 'user');
 
 -- --------------------------------------------------------
 
@@ -414,13 +409,13 @@ ALTER TABLE `monster_correct`
 -- AUTO_INCREMENT pour la table `scores`
 --
 ALTER TABLE `scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT pour la table `types`
@@ -432,7 +427,7 @@ ALTER TABLE `types`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `wallpaper`

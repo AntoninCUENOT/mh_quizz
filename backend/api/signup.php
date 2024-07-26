@@ -17,8 +17,23 @@ class UserRegistration {
 
     public function registerUser($username, $email, $password) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        
+        // Préparer la requête pour insérer l'utilisateur
         $query = $this->pdo->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
-        return $query->execute([$username, $email, $hashedPassword]);
+        $result = $query->execute([$username, $email, $hashedPassword]);
+        
+        if ($result) {
+            // Récupérer l'identifiant de l'utilisateur inséré
+            $userId = $this->pdo->lastInsertId();
+            
+            // Insérer une ligne dans la table scores pour le nouvel utilisateur
+            $scoreQuery = $this->pdo->prepare("INSERT INTO scores (user_id) VALUES (?)");
+            $scoreQuery->execute([$userId]);
+            
+            return $userId;
+        }
+        
+        return false;
     }
 }
 
@@ -50,8 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $userRegistration = new UserRegistration($pdo);
 
         // Appel à la méthode pour enregistrer l'utilisateur
-        if ($userRegistration->registerUser($data['username'], $data['email'], $data['password'])) {
-            echo json_encode(['success' => true]);
+        $userId = $userRegistration->registerUser($data['username'], $data['email'], $data['password']);
+        
+        if ($userId) {
+            echo json_encode(['success' => true, 'userId' => $userId]);
         } else {
             throw new Exception('Registration failed');
         }

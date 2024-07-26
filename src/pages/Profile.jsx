@@ -95,7 +95,7 @@ const Profile = () => {
                         <p style={align}>{scores.answer}</p>
                         <label>Correct Answer</label>
                         <p style={align}>{scores.answer_correct}</p>
-                        <label>Correct Answer with hint</label>
+                        <label>With Hint</label>
                         <p style={align}>{scores.answer_hint}</p>
                     </div>
                 </div>

@@ -8,63 +8,93 @@ const QuizzGuessMonster = () => {
     const [responseMessages, setResponseMessages] = useState([]);
     const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
     const [isAnswer, setIsAnswer] = useState(false);
-
+    const [dataSaved, setDataSaved] = useState(false);
+    const [shouldUpdateScore, setShouldUpdateScore] = useState(false);
+    
+    // Gestion du nettoyage du localStorage
     useEffect(() => {
-        // Obtenir la date et l'heure actuelles en UTC
         const now = new Date();
         const currentUTCDate = now.toISOString().split('T')[0]; // Format YYYY-MM-DD
         const currentUTCHour = now.getUTCHours();
         const localOffset = now.getTimezoneOffset() / 60; // Décalage en heures par rapport à UTC
         const localHour = (currentUTCHour - localOffset + 24) % 24; // Heure locale ajustée pour UTC
-        // Définir l'heure locale de nettoyage
         const cleanupHourLocal = 1; 
     
-        // Récupérer la dernière date et heure de nettoyage du localStorage
         const lastCleanupDate = localStorage.getItem('lastCleanupDate');
     
         if (lastCleanupDate) {
             const lastCleanup = new Date(lastCleanupDate);
             const lastCleanupUTCDate = lastCleanup.toISOString().split('T')[0];
     
-            // Nettoyer uniquement si l'heure locale est 1h et la date du dernier nettoyage est différente de la date actuelle
             if (localHour === cleanupHourLocal && currentUTCDate !== lastCleanupUTCDate) {
-                // Effectuer le nettoyage
                 localStorage.removeItem('suggestions');
                 localStorage.removeItem('submittedProposals');
                 localStorage.removeItem('correctAnswer');
                 localStorage.removeItem('answer');
-    
-                // Mettre à jour la date et l'heure du dernier nettoyage
                 localStorage.setItem('lastCleanupDate', now.toISOString());
             }
         } else {
-            // Si aucune date de nettoyage précédente, enregistrer la date actuelle
             localStorage.setItem('lastCleanupDate', now.toISOString());
         }
     }, []);
     
-    // Au chargement initial, récupérer les propositions stockées dans le localStorage
+    // Chargement des propositions stockées au chargement initial
     useEffect(() => {
-        const storedProposals = JSON.parse(localStorage.getItem('submittedProposals'));
-        const storedCorrectAnswer = JSON.parse(localStorage.getItem('correctAnswer'));
-        const storedAnswer = JSON.parse(localStorage.getItem('answer'));
-        if (storedProposals) {
-            setResponseMessages(storedProposals);
-            setIsCorrectAnswer(storedCorrectAnswer);
-            setIsAnswer(storedAnswer);
-        }
+        const storedProposals = JSON.parse(localStorage.getItem('submittedProposals')) || [];
+        const storedCorrectAnswer = JSON.parse(localStorage.getItem('correctAnswer')) || false;
+        const storedAnswer = JSON.parse(localStorage.getItem('answer')) || false;
+        
+        setResponseMessages(storedProposals);
+        setIsCorrectAnswer(storedCorrectAnswer);
+        setIsAnswer(storedAnswer);
     }, []);
 
-    // Sauvegarder dans le localStorage à chaque changement de responseMessages
+    // Sauvegarde dans le localStorage à chaque changement de responseMessages
     useEffect(() => {
-        if (responseMessages.length > 0) {
+        if (responseMessages.length > 0 || isCorrectAnswer || isAnswer) {
             localStorage.setItem('submittedProposals', JSON.stringify(responseMessages));
-            localStorage.setItem('correctAnswer',JSON.stringify(isCorrectAnswer));
-            localStorage.setItem('answer',JSON.stringify(isAnswer));
+            localStorage.setItem('correctAnswer', JSON.stringify(isCorrectAnswer));
+            localStorage.setItem('answer', JSON.stringify(isAnswer));
+            setDataSaved(true);
+            setShouldUpdateScore(true); // Déclenche la mise à jour du score après sauvegarde
         }
     }, [responseMessages, isCorrectAnswer, isAnswer]);
 
+    // Mise à jour du score lorsque shouldUpdateScore est vrai
+    useEffect(() => {
+        if (shouldUpdateScore) {
+            const updateScore = async () => {
+                try {
+                    const userId = localStorage.getItem('userId');
+                    const correctAnswerStr = localStorage.getItem('correctAnswer');
+                    const hintUsedStr = localStorage.getItem('hint_used');
+        
+                    // Conversion des chaînes en entiers
+                    const correct = correctAnswerStr === 'true' ? 1 : 0;
+                    const hintUsed = hintUsedStr === 'true' ? 1 : 0;
+        
+                    console.log('Updating score with:', { userId, correct, hintUsed });
+        
+                    await axios.post('http://localhost:8002/api/update_score.php', {
+                        userId,
+                        correct,
+                        hintUsed
+                    });
+        
+                    console.log('Score updated successfully');
+                } catch (error) {
+                    console.error('Error updating score:', error.response ? error.response.data : error.message);
+                }
+            };
+            updateScore();
+            setShouldUpdateScore(false); // Réinitialiser l'état après la mise à jour
+        }
+    }, [shouldUpdateScore]);
+
     const handleSubmit = async (userInput) => {
+        const userId = localStorage.getItem('userId');
+        const hintUsed = localStorage.getItem('hint_used') === 'true' ? 1 : 0;
+
         try {
             const response = await axios.get(`http://localhost:8002/api/monsters.php?name=${userInput}`);
             const data = response.data;
@@ -104,6 +134,8 @@ const QuizzGuessMonster = () => {
         localStorage.removeItem('correctAnswer');
         localStorage.removeItem('suggestions');
         localStorage.removeItem('answer');
+        setDataSaved(false); // Réinitialiser l'état de sauvegarde
+        setShouldUpdateScore(false); // Réinitialiser l'état de mise à jour du score
     };
 
     return (

@@ -4,6 +4,7 @@ import axios from 'axios';
 const Response = ({ responseMessages }) => {
     const [incorrectAttempts, setIncorrectAttempts] = useState(0);
     const [hints, setHints] = useState([]);
+    localStorage.setItem('hint_used', 'false')
 
     useEffect(() => {
         const elements = document.querySelectorAll('.result img, .result p');
@@ -94,6 +95,19 @@ const Response = ({ responseMessages }) => {
             }
         };
     }, []);
+
+    useEffect(() => {
+        const elements = document.querySelectorAll('.result img, .result p');
+
+        if (incorrectAttempts >= 5) {
+            elements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.display = 'block';
+                    localStorage.setItem('hint_used', 'true');
+                }, (index + 1) * 1000);
+            });
+        }
+    }, [incorrectAttempts]);
 
     return (
         <>

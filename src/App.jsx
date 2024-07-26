@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import AdminListMonster from "./pages/AdminListMonster";
 import AdminEditMonster from "./pages/AdminEditMonster";
+import AdminBoard from "./pages/AdminBoard";
 
 const PrivateRoute = ({ children, user }) => {
   return user && user.role === 'admin' ? children : <Navigate to="/" />;
@@ -76,6 +77,11 @@ const App = () => {
         <Route path="/admin" element={
           <PrivateRoute user={user}>
             <Admin />
+          </PrivateRoute>
+        } />
+        <Route path="/admin/board" element={
+          <PrivateRoute user={user}>
+            <AdminBoard />
           </PrivateRoute>
         } />
         <Route path="/admin/monster" element={

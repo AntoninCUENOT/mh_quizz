@@ -11,6 +11,12 @@ const NavigationAdmin = () => {
         </NavLink>
         <NavLink
             style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
+            to="/admin/board"
+        >
+            <h2>BOARD</h2>
+        </NavLink>
+        <NavLink
+            style={({ isActive }) => (isActive ? { ...linkStyle, ...activeLinkStyle } : linkStyle)}
             to="/admin/monster"
         >
             <h2>ADD MONSTER</h2>
