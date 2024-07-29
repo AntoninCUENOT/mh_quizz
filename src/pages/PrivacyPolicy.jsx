@@ -63,7 +63,6 @@ const PrivacyPolicy = () => {
     );
 };
 
-// Inline styles
 const containerStyle = {
     textAlign: 'center',
     padding: '20px',
