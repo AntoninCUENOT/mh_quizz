@@ -1,6 +1,7 @@
 @import 'components/keyframe';
 @import 'components/body';
 @import 'components/menu';
+@import 'components/footer';
 @import 'components/home';
 @import 'components/monsterForm';
 @import 'components/formUser';
@@ -256,4 +257,16 @@ h1 {
     text-align: center;
     -webkit-text-stroke: 2px #ffffff;
     color: black;
+}
+
+.policy {
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 64px;
+    border: 1px solid white;
+    background: black;
+    margin-top: 1rem;
+    &:hover{
+        text-decoration: underline;
+    }
 }

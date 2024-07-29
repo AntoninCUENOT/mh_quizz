@@ -12,6 +12,9 @@ import Profile from "./pages/Profile";
 import AdminListMonster from "./pages/AdminListMonster";
 import AdminEditMonster from "./pages/AdminEditMonster";
 import AdminBoard from "./pages/AdminBoard";
+import Footer from "./components/Footer";
+import AdminReseaux from "./pages/AdminReseaux";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const PrivateRoute = ({ children, user }) => {
   return user && user.role === 'admin' ? children : <Navigate to="/" />;
@@ -54,10 +57,12 @@ const App = () => {
   }
 
   return (
+    <>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Home />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/login" element={
           <LogRoute user={user}>
             <Login />
@@ -84,6 +89,11 @@ const App = () => {
             <AdminBoard />
           </PrivateRoute>
         } />
+        <Route path="/admin/network" element={
+          <PrivateRoute user={user}>
+            <AdminReseaux />
+          </PrivateRoute>
+        } />
         <Route path="/admin/monster" element={
           <PrivateRoute user={user}>
             <AdminMonster />
@@ -106,6 +116,8 @@ const App = () => {
         } />
       </Routes>
     </BrowserRouter>
+    <Footer />
+    </>
   );
 };
 

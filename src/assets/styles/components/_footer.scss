@@ -1,0 +1,26 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 2rem;
+    h2 {
+        font-size: 2rem; /* Taille du titre */
+        margin-bottom: 20px; /* Marge en dessous du titre */
+        background: black;
+        padding: 1em;
+        border-radius: 64px;
+        border: 1px solid white;
+        box-shadow: 10px 10px 15px rgba(0,0,0,0.6);
+    }
+    nav {
+        a {
+            margin: 1rem;
+        }
+        img {
+        border-radius: 100%;
+        border: 1px solid white;
+    }
+    }
+    
+}

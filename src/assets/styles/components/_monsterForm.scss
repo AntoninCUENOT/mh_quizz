@@ -2,8 +2,9 @@
     display: flex;
     justify-content: center;
 }
-.monster-form, .hunter-form, .hunter-score {
+.monster-form, .hunter-form, .hunter-score, .admin-reseaux {
     display: flex;
+    margin: 1rem;
     flex-direction: column;
     align-items: center;
     gap: 15px;
