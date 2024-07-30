@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const Navigation = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isClosing, setIsClosing] = useState(false); // Nouvel état pour gérer la fermeture
+    const [isClosing, setIsClosing] = useState(false);
     const userRole = localStorage.getItem('userRole');
     const userId = localStorage.getItem('userId');
 
