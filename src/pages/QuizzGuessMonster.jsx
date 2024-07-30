@@ -145,7 +145,7 @@ const QuizzGuessMonster = () => {
             <div className="home-container">
                 {!isCorrectAnswer && (
                     <>
-                        <h1>TROUVE LE MONSTRE</h1>
+                        <h1>FIND MONSTER</h1>
                         <MonsterInput onSubmit={handleSubmit} />
                     </>
                 )}

@@ -35,6 +35,8 @@ const App = () => {
         setUser(response.data);
       } else {
         localStorage.removeItem('userToken');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userId');
       }
     } catch (error) {
       console.error('Token verification error:', error);

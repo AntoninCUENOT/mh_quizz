@@ -119,7 +119,7 @@ const MonsterInput = ({ onSubmit }) => {
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
-                placeholder="Devinez le nom du monstre..."
+                placeholder="Guess name of monster..."
                 value={userInput}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}

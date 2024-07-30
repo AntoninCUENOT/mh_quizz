@@ -68,7 +68,7 @@ const AdminListMonster = () => {
                 </div>
                 {loading && <p>Loading...</p>}
                 {error && <p>{error}</p>}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
                     {monsters.length > 0 ? (
                         monsters.map(monster => (
                             <div key={monster.id} style={{ textAlign: 'center', background: 'black', border: '1px solid white', padding: '1rem', position: 'relative' }}>
