@@ -4,6 +4,7 @@ import NavigationAdmin from '../components/NavigationAdmin';
 
 const AdminBoard = () => {
     const [users, setUsers] = useState([]);
+    const [searchQuery, setSearchQuery] = useState(''); // État pour la recherche
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -30,42 +31,78 @@ const AdminBoard = () => {
             });
     };
 
+    // Filtrer les utilisateurs en fonction de la recherche
+    const filteredUsers = users.filter(user =>
+        user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <>
             <NavigationAdmin />
-            <div style={{ padding: '20px', textAlign: 'center' }}>
+            <div style={{textAlign: 'center', marginTop: '15vh'}}>
                 <h1>ADMIN BOARD</h1>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
-                <table style={tableStyle}>
-                    <thead>
-                        <tr>
-                            <th style={thTdStyle}>Username</th>
-                            <th style={thTdStyle}>Email</th>
-                            <th style={thTdStyle}>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map(user => (
-                            <tr key={user.id}>
-                                <td style={thTdStyle}>{user.username}</td>
-                                <td style={thTdStyle}>{user.email}</td>
-                                <td style={thTdStyle}>
-                                    <select
-                                        style={selectStyle}
-                                        value={user.role}
-                                        onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                                    >
-                                        <option value="user">User</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
-                                </td>
+
+                {/* Champ de recherche */}
+                <input
+                    type="text"
+                    placeholder="Search users by username or email..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={searchInputStyle}
+                />
+
+                {/* Conteneur avec défilement horizontal */}
+                <div style={tableContainerStyle}>
+                    <table style={tableStyle}>
+                        <thead>
+                            <tr>
+                                <th style={thTdStyle}>Username</th>
+                                <th style={thTdStyle}>Email</th>
+                                <th style={thTdStyle}>Role</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {filteredUsers.map(user => (
+                                <tr key={user.id}>
+                                    <td style={thTdStyle}>{user.username}</td>
+                                    <td style={thTdStyle}>{user.email}</td>
+                                    <td style={thTdStyle}>
+                                        <select
+                                            style={selectStyle}
+                                            value={user.role}
+                                            onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                                        >
+                                            <option value="user">User</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>
     );
+};
+
+const searchInputStyle = {
+    padding: '10px',
+    marginBottom: '20px',
+    width: '80%',
+    maxWidth: '300px',
+    borderRadius: '5px',
+    border: '1px solid white',
+    textAlign: 'center',
+    backgroundColor: 'black',
+};
+
+const tableContainerStyle = {
+    overflowX: 'auto',
+    maxWidth: '90%',
+    margin: '0 auto',
 };
 
 const tableStyle = {
@@ -73,6 +110,7 @@ const tableStyle = {
     borderCollapse: 'collapse',
     backgroundColor: 'black',
     color: '#fff',
+    minWidth: '600px',
     boxShadow: '5px 10px 10px rgba(0, 0, 0, 0.8)',
 };
 
