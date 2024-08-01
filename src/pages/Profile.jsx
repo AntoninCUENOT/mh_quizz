@@ -55,13 +55,14 @@ const Profile = () => {
     return (
         <>
             <Navigation />
-            <div className='profil' style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+            <div className='profil' style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center'}}>
                 <div className='hunter-formulaire'>
-                    {isFormVisible && (<form className='hunter-form' onSubmit={handleSubmit}>
-                        <h2 style={{ textTransform: 'uppercase' }}>{userName}'S PROFILE</h2>
+                    {isFormVisible && (<form className='hunter-score' onSubmit={handleSubmit}>
+                        <h2 style={{ textTransform: 'uppercase', textAlign: 'center' }}>{userName}'S PROFILE</h2>
                         <input
                             type="hidden"
                             name="id"
+                            style={align}
                             value={profile.id || ''}
                             onChange={handleChange}
                             required
@@ -70,6 +71,7 @@ const Profile = () => {
                         <input
                             type="text"
                             name="username"
+                            style={align}
                             value={profile.username || ''}
                             onChange={handleChange}
                             required
@@ -79,6 +81,7 @@ const Profile = () => {
                         <input
                             type="text"
                             name="email"
+                            style={align}
                             value={profile.email || ''}
                             onChange={handleChange}
                         />
@@ -90,7 +93,7 @@ const Profile = () => {
                 </div>
                 <div className='hunter-formulaire'>
                     <div className='hunter-score'>
-                        <h2 style={{ textTransform: 'uppercase' }}>{userName}'S SCORES</h2>
+                        <h2 style={{ textTransform: 'uppercase', textAlign: 'center' }}>{userName}'S SCORES</h2>
                         <label>Total Answer</label>
                         <p style={align}>{scores.answer}</p>
                         <label>Correct Answer</label>

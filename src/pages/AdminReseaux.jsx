@@ -60,7 +60,7 @@ const AdminReseaux = () => {
     return (
         <>
             <NavigationAdmin />
-            <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+            <div className="board" style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                 <form onSubmit={handleAddReseau} className="admin-reseaux" style={{marginTop: '0'}}>
                     <h2 style={{textAlign: 'center'}}>ADMIN SOCIAL NETWORK</h2>
                     <input
