@@ -12,7 +12,7 @@ const AdminListMonster = () => {
 
     useEffect(() => {
         // Récupérer les types
-        axios.get('http://localhost:8002/api/get_monsters.php?type=types')
+        axios.get('http://localhost:8002/api/Monsters/GetMonsters.php?type=types')
             .then(response => {
                 setTypes(response.data);
             })
@@ -24,7 +24,7 @@ const AdminListMonster = () => {
 
     useEffect(() => {
         // Récupérer les monstres en fonction du type sélectionné
-        const url = selectedType ? `http://localhost:8002/api/get_monsters.php?type=${selectedType}` : 'http://localhost:8002/api/get_monsters.php';
+        const url = selectedType ? `http://localhost:8002/api/Monsters/GetMonsters.php?type=${selectedType}` : 'http://localhost:8002/api/Monsters/GetMonsters.php';
         axios.get(url)
             .then(response => {
                 setMonsters(response.data);
@@ -44,7 +44,7 @@ const AdminListMonster = () => {
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this monster?')) {
             try {
-                await axios.delete(`http://localhost:8002/api/delete_monster.php?id=${id}`);
+                await axios.delete(`http://localhost:8002/api/Monsters/DeleteMonster.php?id=${id}`);
                 setMonsters(monsters.filter(monster => monster.id !== id));
             } catch (error) {
                 console.error('Error deleting monster:', error);

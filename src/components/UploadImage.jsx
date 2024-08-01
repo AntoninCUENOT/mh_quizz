@@ -12,7 +12,7 @@ const UploadImage = () => {
         const formData = new FormData();
         formData.append('wallpaper', file);
 
-        fetch('http://localhost:8002/api/wallpaper.php', {
+        fetch('http://localhost:8002/api/Wallpaper.php', {
             method: 'POST',
             body: formData,
         })

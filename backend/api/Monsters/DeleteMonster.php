@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit; // Réponse vide pour les requêtes OPTIONS
 }
 
-require '../Database.php';
+require '../../Database.php';
 
 class Monster {
     private $pdo;

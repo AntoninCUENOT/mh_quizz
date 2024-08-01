@@ -6,12 +6,12 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // Répondre aux requêtes OPTIONS (pré-vol)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    exit;
+    exit; // Réponse vide pour les requêtes OPTIONS
 }
 
-require '../Database.php';
+require '../../Database.php';
 
-class ScoreUpdater {
+class UserUpdater {
     private $pdo;
 
     public function __construct() {
@@ -19,16 +19,12 @@ class ScoreUpdater {
         $this->pdo = $database->connect();
     }
 
-    public function updateScore($userId, $correct, $hintUsed) {
-        $sql = "UPDATE scores SET answer = answer + 1, 
-                answer_correct = answer_correct + :correct, 
-                answer_hint = answer_hint + :hintUsed 
-                WHERE user_id = :userId";
+    public function updateRole($id, $role) {
+        $sql = "UPDATE users SET role = :role WHERE id = :id";
         try {
             $query = $this->pdo->prepare($sql);
-            $query->bindParam(':userId', $userId, PDO::PARAM_INT);
-            $query->bindParam(':correct', $correct, PDO::PARAM_INT);
-            $query->bindParam(':hintUsed', $hintUsed, PDO::PARAM_INT);
+            $query->bindParam(':role', $role);
+            $query->bindParam(':id', $id);
             $query->execute();
 
             if ($query->rowCount() > 0) {
@@ -38,7 +34,7 @@ class ScoreUpdater {
             }
         } catch (PDOException $e) {
             http_response_code(500);
-            echo json_encode(array('message' => 'Erreur lors de la mise à jour du score : ' . $e->getMessage()));
+            echo json_encode(array('message' => 'Erreur lors de la mise à jour du rôle : ' . $e->getMessage()));
             exit;
         }
     }
@@ -46,17 +42,16 @@ class ScoreUpdater {
 
 // Vérifier la méthode de la requête
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $scoreUpdater = new ScoreUpdater();
+    $userUpdater = new UserUpdater();
 
     // Récupérer les données envoyées par la requête
     $data = json_decode(file_get_contents('php://input'), true);
-    $userId = $data['userId'];
-    $correct = isset($data['correct']) ? (int)$data['correct'] : 0;
-    $hintUsed = isset($data['hintUsed']) ? (int)$data['hintUsed'] : 0;
+    $id = $data['id'];
+    $role = $data['role'];
 
-    if (isset($userId) && isset($correct) && isset($hintUsed)) {
-        if ($scoreUpdater->updateScore($userId, $correct, $hintUsed)) {
-            echo json_encode(array('message' => 'Score mis à jour avec succès.'));
+    if (isset($id) && isset($role)) {
+        if ($userUpdater->updateRole($id, $role)) {
+            echo json_encode(array('message' => 'Rôle mis à jour avec succès.'));
         } else {
             http_response_code(404);
             echo json_encode(array('message' => 'Utilisateur non trouvé.'));

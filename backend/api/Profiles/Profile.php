@@ -3,9 +3,9 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-require '../Database.php';
+require '../../Database.php';
 
-class Scores {
+class Profile {
     private $pdo;
 
     public function __construct() {
@@ -13,35 +13,35 @@ class Scores {
         $this->pdo = $database->connect();
     }
 
-    public function getScores($id) {
-        $sql = "SELECT answer, answer_correct, answer_hint FROM scores WHERE user_id = ?";
+    public function getProfile($id) {
+        $sql = "SELECT id, username, email FROM users WHERE id = ?";
         try {
             $query = $this->pdo->prepare($sql);
             $query->execute([$id]);
-            $scores = $query->fetch(PDO::FETCH_ASSOC); // Utilisez fetch pour obtenir une seule ligne
-            return $scores;
+            $infos = $query->fetch(PDO::FETCH_ASSOC); // Utilisez fetch au lieu de fetchAll si vous attendez une seule ligne
+            return $infos;
         } catch (PDOException $e) {
             http_response_code(500);
-            echo json_encode(array('message' => 'Erreur lors de la récupération des scores : ' . $e->getMessage()));
+            echo json_encode(array('message' => 'Erreur lors de la récupération du profil : ' . $e->getMessage()));
             exit;
         }
     }
 }
 
-// Utilisation de la classe pour récupérer les scores et renvoyer la réponse JSON
-$scores = new Scores();
+// Utilisation de la classe pour récupérer les informations et renvoyer la réponse JSON
+$profile = new Profile();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Vérifier si le paramètre 'id' est présent dans la requête GET
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
-        $scoresData = $scores->getScores($id);
+        $infos = $profile->getProfile($id);
         // Assurez-vous que le résultat est en JSON et que le code de réponse HTTP est correct
-        if ($scoresData) {
-            echo json_encode($scoresData);
+        if ($infos) {
+            echo json_encode($infos);
         } else {
             http_response_code(404);
-            echo json_encode(array("message" => "Scores non trouvés."));
+            echo json_encode(array("message" => "Profil non trouvé."));
         }
     } else {
         http_response_code(400);

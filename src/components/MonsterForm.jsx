@@ -22,7 +22,7 @@ const MonsterForm = ({ monsterId, onSubmit, isEditMode }) => {
 
     useEffect(() => {
         // Charger la liste des types et des maps
-        axios.get('http://localhost:8002/api/maps.php')
+        axios.get('http://localhost:8002/api/Monsters/Maps.php')
             .then(response => {
                 setMaps(response.data);
             })
@@ -31,7 +31,7 @@ const MonsterForm = ({ monsterId, onSubmit, isEditMode }) => {
                 setError('Error fetching maps');
             });
 
-        axios.get('http://localhost:8002/api/types.php')
+        axios.get('http://localhost:8002/api/Monsters/Types.php')
             .then(response => {
                 setTypes(response.data);
             })
@@ -42,7 +42,7 @@ const MonsterForm = ({ monsterId, onSubmit, isEditMode }) => {
 
         // Charger les données du monstre si nous sommes en mode édition
         if (monsterId) {
-            axios.get(`http://localhost:8002/api/get_monsters.php?monsterId=${monsterId}`)
+            axios.get(`http://localhost:8002/api/Monsters/GetMonsters.php?monsterId=${monsterId}`)
                 .then(response => {
                     const monster = response.data;
                     setFormData({
@@ -109,7 +109,7 @@ const MonsterForm = ({ monsterId, onSubmit, isEditMode }) => {
         postData.append('maps', JSON.stringify(selectedMaps));
 
         try {
-            const url = isEditMode ? `http://localhost:8002/api/update_monster.php?id=${monsterId}` : 'http://localhost:8002/api/create_monster.php';
+            const url = isEditMode ? `http://localhost:8002/api/Monsters/UpdateMonster.php?id=${monsterId}` : 'http://localhost:8002/api/Monsters/CreateMonster.php';
             const response = await axios.post(url, postData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'

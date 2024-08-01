@@ -7,7 +7,7 @@ const Footer = () => {
     useEffect(() => {
         const fetchReseaux = async () => {
             try {
-                const response = await axios.get('http://localhost:8002/api/get_reseaux.php');
+                const response = await axios.get('http://localhost:8002/api/Networks/Reseaux.php');
                 setReseaux(response.data);
             } catch (error) {
                 console.error('Error fetching reseaux:', error);

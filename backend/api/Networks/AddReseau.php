@@ -3,7 +3,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
 
-require '../Database.php';
+require '../../Database.php';
 
 class AddReseau {
     private $pdo;
@@ -51,7 +51,7 @@ class AddReseau {
     }
 
     private function uploadFile($file) {
-        $targetDir = '../../src/assets/reseaux/logo/';
+        $targetDir = '../../../src/assets/reseaux/logo/';
         if (!is_dir($targetDir)) {
             mkdir($targetDir, 0755, true);
         }

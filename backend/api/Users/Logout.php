@@ -5,7 +5,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: DELETE, OPTIONS');
 // Autoriser les en-têtes personnalisés et les en-têtes requis pour la requête
 header('Access-Control-Allow-Headers: Content-Type');
-require_once('../Database.php');
+require_once('../../Database.php');
 session_start();
 
 class Logout {

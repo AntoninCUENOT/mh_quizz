@@ -30,7 +30,7 @@ const App = () => {
 
   const verifyToken = async (token) => {
     try {
-      const response = await axios.post('http://localhost:8002/api/verify_token.php', { token });
+      const response = await axios.post('http://localhost:8002/api/Users/VerifyToken.php', { token });
       if (response.data.success) {
         setUser(response.data);
       } else {

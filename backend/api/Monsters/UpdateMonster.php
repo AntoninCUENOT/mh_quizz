@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit; // Réponse vide pour les requêtes OPTIONS
 }
 
-require '../Database.php';
+require '../../Database.php';
 
 class MonsterUpdater {
     private $pdo;
@@ -25,9 +25,9 @@ class MonsterUpdater {
 
             // Gestion des téléchargements de fichiers
             $currentPaths = $this->getCurrentPaths($id);
-            $image_path = $this->handleFileUpdate($image, '../../src/assets/monsters/images/', $name, $currentPaths['image_path']);
-            $sound_path = $this->handleFileUpdate($sound, '../../src/assets/monsters/sounds/', $name, $currentPaths['sound_path']);
-            $theme_path = $this->handleFileUpdate($theme, '../../src/assets/monsters/themes/', $name, $currentPaths['theme_path']);
+            $image_path = $this->handleFileUpdate($image, '../../../src/assets/monsters/images/', $name, $currentPaths['image_path']);
+            $sound_path = $this->handleFileUpdate($sound, '../../../src/assets/monsters/sounds/', $name, $currentPaths['sound_path']);
+            $theme_path = $this->handleFileUpdate($theme, '../../../src/assets/monsters/themes/', $name, $currentPaths['theme_path']);
 
             // Mise à jour des données du monstre
             $sql = "UPDATE monsters SET 

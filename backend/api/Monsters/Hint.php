@@ -2,7 +2,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-require '../Database.php'; // Inclure le fichier de configuration de la base de données
+require '../../Database.php'; // Inclure le fichier de configuration de la base de données
 
 class HintAPI {
     private $pdo;

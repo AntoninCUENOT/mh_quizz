@@ -75,7 +75,7 @@ const QuizzGuessMonster = () => {
         
                     console.log('Updating score with:', { userId, correct, hintUsed });
         
-                    await axios.post('http://localhost:8002/api/update_score.php', {
+                    await axios.post('http://localhost:8002/api/Profiles/UpdateScore.php', {
                         userId,
                         correct,
                         hintUsed
@@ -96,7 +96,7 @@ const QuizzGuessMonster = () => {
         const hintUsed = localStorage.getItem('hint_used') === 'true' ? 1 : 0;
 
         try {
-            const response = await axios.get(`http://localhost:8002/api/monsters.php?name=${userInput}`);
+            const response = await axios.get(`http://localhost:8002/api/Monsters/Monsters.php?name=${userInput}`);
             const data = response.data;
 
             if (!isValidMonsterData(data)) {

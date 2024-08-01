@@ -6,7 +6,7 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 // Autoriser les en-têtes personnalisés et les en-têtes requis pour la requête
 header('Access-Control-Allow-Headers: Content-Type');
 session_start();
-require '../Database.php';
+require '../../Database.php';
 
 class UserAuthenticator {
     private $pdo;

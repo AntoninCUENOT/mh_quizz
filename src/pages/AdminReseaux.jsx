@@ -14,7 +14,7 @@ const AdminReseaux = () => {
 
     const fetchReseaux = async () => {
         try {
-            const response = await axios.get('http://localhost:8002/api/get_reseaux.php');
+            const response = await axios.get('http://localhost:8002/api/Networks/Reseaux.php');
             setReseaux(response.data);
         } catch (error) {
             console.error('Error fetching reseaux:', error);
@@ -32,7 +32,7 @@ const AdminReseaux = () => {
         }
 
         try {
-            await axios.post('http://localhost:8002/api/add_reseau.php', formData, {
+            await axios.post('http://localhost:8002/api/Networks/AddReseau.php', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -49,7 +49,7 @@ const AdminReseaux = () => {
 
     const handleDeleteReseau = async (id) => {
         try {
-            await axios.post('http://localhost:8002/api/delete_reseau.php', { id });
+            await axios.post('http://localhost:8002/api/Networks/DeleteReseau.php', { id });
             // Recharger les réseaux après suppression
             fetchReseaux();
         } catch (error) {

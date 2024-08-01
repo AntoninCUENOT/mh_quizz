@@ -17,7 +17,7 @@ const MonsterInput = ({ onSubmit }) => {
         }
 
         try {
-            const response = await axios.get(`http://localhost:8002/api/suggestions.php?q=${query}`);
+            const response = await axios.get(`http://localhost:8002/api/Monsters/Suggestions.php?q=${query}`);
             const filteredSuggestions = response.data.filter(suggestion => {
                 const savedSuggestions = JSON.parse(localStorage.getItem('suggestions') || '[]');
                 return !savedSuggestions.includes(suggestion);

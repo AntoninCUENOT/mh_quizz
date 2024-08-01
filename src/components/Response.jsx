@@ -53,7 +53,7 @@ const Response = ({ responseMessages }) => {
 
     useEffect(() => {
         // Charger la liste des indices depuis le backend lors du chargement initial du composant
-        axios.get('http://localhost:8002/api/hint.php')
+        axios.get('http://localhost:8002/api/Monsters/Hint.php')
             .then(response => {
                 setHints(response.data);
             })

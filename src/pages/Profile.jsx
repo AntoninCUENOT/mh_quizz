@@ -12,7 +12,7 @@ const Profile = () => {
 
     useEffect(() => {
         // Charger le profil depuis le backend lors du chargement initial du composant
-        axios.get(`http://localhost:8002/api/profile.php?id=${userId}`)
+        axios.get(`http://localhost:8002/api/Profiles/Profile.php?id=${userId}`)
             .then(response => {
                 setProfile(response.data);
             })
@@ -21,7 +21,7 @@ const Profile = () => {
             });
 
         // Charger la liste des scores depuis le backend
-        axios.get(`http://localhost:8002/api/scores.php?id=${userId}`)
+        axios.get(`http://localhost:8002/api/Profiles/Scores.php?id=${userId}`)
             .then(response => {
                 setScores(response.data);
             })
@@ -41,7 +41,7 @@ const Profile = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Envoyer les données mises à jour au backend
-        axios.post(`http://localhost:8002/api/update_profile.php`, profile)
+        axios.post(`http://localhost:8002/api/Profiles/UpdateProfile.php`, profile)
             .then(response => {
                 console.log('Profile updated:', response.data);
                 setIsFormVisible(false);

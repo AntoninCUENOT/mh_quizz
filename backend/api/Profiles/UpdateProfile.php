@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
 
-require '../Database.php';
+require '../../Database.php';
 
 class ProfileUpdate {
     private $pdo;

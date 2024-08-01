@@ -3,7 +3,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require '../Database.php';
+require '../../Database.php';
 
 class DeleteReseau {
     private $pdo;
@@ -31,8 +31,27 @@ class DeleteReseau {
             }
 
             try {
+                // Récupérer le chemin du fichier avant de supprimer l'entrée
+                $query = $this->pdo->prepare('SELECT icon FROM reseaux WHERE id = ?');
+                $query->execute([$data['id']]);
+                $reseau = $query->fetch(PDO::FETCH_ASSOC);
+
+                if (!$reseau) {
+                    http_response_code(404);
+                    echo json_encode(['error' => 'Network not found']);
+                    return;
+                }
+
+                // Supprimer le fichier s'il existe
+                $iconPath = $reseau['icon'];
+                if (file_exists($iconPath)) {
+                    unlink($iconPath);
+                }
+
+                // Supprimer l'entrée de la base de données
                 $query = $this->pdo->prepare('DELETE FROM reseaux WHERE id = ?');
                 $success = $query->execute([$data['id']]);
+
                 if ($success) {
                     echo json_encode(['success' => true]);
                 } else {

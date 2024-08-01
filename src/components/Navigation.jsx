@@ -10,7 +10,7 @@ const Navigation = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.delete(`http://localhost:8002/api/logout.php?user_id=${userId}`);
+            await axios.delete(`http://localhost:8002/api/Users/Logout.php?user_id=${userId}`);
             localStorage.removeItem('userToken');
             localStorage.removeItem('userRole');
             localStorage.removeItem('userId');

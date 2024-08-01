@@ -6,7 +6,7 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 // Autoriser les en-têtes personnalisés et les en-têtes requis pour la requête
 header('Access-Control-Allow-Headers: Content-Type');
 // Inclure votre fichier de configuration de la base de données
-require '../Database.php';
+require '../../Database.php';
 
 class UserRegistration {
     private $pdo;

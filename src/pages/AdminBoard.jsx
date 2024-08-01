@@ -9,7 +9,7 @@ const AdminBoard = () => {
 
     useEffect(() => {
         // Récupérer la liste des utilisateurs
-        axios.get('http://localhost:8002/api/get_users.php')
+        axios.get('http://localhost:8002/api/Users/Users.php')
             .then(response => {
                 setUsers(response.data);
             })
@@ -21,7 +21,7 @@ const AdminBoard = () => {
 
     const handleRoleChange = (userId, newRole) => {
         // Mettre à jour le rôle de l'utilisateur
-        axios.post('http://localhost:8002/api/update_role.php', { id: userId, role: newRole })
+        axios.post('http://localhost:8002/api/Profiles/UpdateRole.php', { id: userId, role: newRole })
             .then(response => {
                 setUsers(users.map(user => user.id === userId ? { ...user, role: newRole } : user));
             })
