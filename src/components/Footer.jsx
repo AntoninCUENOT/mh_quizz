@@ -19,7 +19,7 @@ const Footer = () => {
 
     return (
         <footer className='footer'>
-            <h2>MY NETWORK</h2>
+            <h2>MY SOCIAL NETWORKS</h2>
             <nav>
                 {reseaux.map((reseau) => (
                         <a key={reseau.id} href={reseau.url} target="_blank" rel="noopener noreferrer">

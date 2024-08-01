@@ -5,6 +5,7 @@
     flex-direction: column;
     margin-top: 2rem;
     h2 {
+        text-align: center;
         font-size: 2rem; /* Taille du titre */
         margin-bottom: 20px; /* Marge en dessous du titre */
         background: black;
@@ -12,6 +13,8 @@
         border-radius: 64px;
         border: 1px solid white;
         box-shadow: 10px 10px 15px rgba(0,0,0,0.6);
+        width: 60%;
+        max-width: 400px;
     }
     nav {
         a {

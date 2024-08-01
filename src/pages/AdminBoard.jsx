@@ -40,7 +40,7 @@ const AdminBoard = () => {
     return (
         <>
             <NavigationAdmin />
-            <div style={{textAlign: 'center', marginTop: '15vh'}}>
+            <div className='board' style={{textAlign: 'center'}}>
                 <h1>ADMIN BOARD</h1>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
 

@@ -83,7 +83,7 @@ const AdminReseaux = () => {
                             padding: '1rem',
                             borderRadius: '64px',
                             border: '1px solid white',
-                            marginRight: '1rem'
+                            marginRight: '1rem',
                         }}
                         type="file"
                         onChange={(e) => setIcon(e.target.files[0])}
