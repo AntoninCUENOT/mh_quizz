@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 26 juil. 2024 à 10:54
+-- Généré le : dim. 25 août 2024 à 19:11
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -185,6 +185,27 @@ INSERT INTO `monster_map` (`monster_id`, `map_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `reseaux`
+--
+
+CREATE TABLE `reseaux` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `icon` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `reseaux`
+--
+
+INSERT INTO `reseaux` (`id`, `nom`, `url`, `icon`) VALUES
+(1, 'linkedin', 'https://www.linkedin.com/in/antonin-cuenot/', '../../src/assets/reseaux/logo/linkedin-icon-2.svg'),
+(5, 'twitter', 'twiiter.com', '../../src/assets/reseaux/logo/twitter-logo-2.svg');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `scores`
 --
 
@@ -201,7 +222,7 @@ CREATE TABLE `scores` (
 --
 
 INSERT INTO `scores` (`id`, `user_id`, `answer`, `answer_correct`, `answer_hint`) VALUES
-(1, 2, 31, 6, 2),
+(1, 2, 46, 10, 2),
 (2, 8, 4, 1, 0);
 
 -- --------------------------------------------------------
@@ -216,6 +237,14 @@ CREATE TABLE `sessions` (
   `token` varchar(255) NOT NULL,
   `expires_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Déchargement des données de la table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `token`, `expires_at`) VALUES
+(49, 3, '$2y$10$IftGFvFczxR20sQzfl8aXucuwrm9yoKwy1BOOO9gcj5LRGHncCV4G', '2024-08-30 09:49:47'),
+(54, 2, '$2y$10$20OdKeJvCyDpcTBKOUKACusohBIiG9y7sKuXOIh2726vhIE.no2tO', '2024-08-31 10:04:23');
 
 --
 -- Déclencheurs `sessions`
@@ -346,6 +375,12 @@ ALTER TABLE `monster_map`
   ADD KEY `fk_map_id` (`map_id`);
 
 --
+-- Index pour la table `reseaux`
+--
+ALTER TABLE `reseaux`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `scores`
 --
 ALTER TABLE `scores`
@@ -397,13 +432,19 @@ ALTER TABLE `maps`
 -- AUTO_INCREMENT pour la table `monsters`
 --
 ALTER TABLE `monsters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `monster_correct`
 --
 ALTER TABLE `monster_correct`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `reseaux`
+--
+ALTER TABLE `reseaux`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `scores`
@@ -415,7 +456,7 @@ ALTER TABLE `scores`
 -- AUTO_INCREMENT pour la table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT pour la table `types`
