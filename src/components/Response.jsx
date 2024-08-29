@@ -100,9 +100,8 @@ const Response = ({ responseMessages }) => {
         const elements = document.querySelectorAll('.result img, .result p');
 
         if (incorrectAttempts >= 5) {
-            elements.forEach((element, index) => {
+            elements.forEach((index) => {
                 setTimeout(() => {
-                    element.style.display = 'block';
                     localStorage.setItem('hint_used', 'true');
                 }, (index + 1) * 1000);
             });
