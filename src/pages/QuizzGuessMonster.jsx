@@ -56,7 +56,6 @@ const QuizzGuessMonster = () => {
             localStorage.setItem('correctAnswer', JSON.stringify(isCorrectAnswer));
             localStorage.setItem('answer', JSON.stringify(isAnswer));
             setDataSaved(true);
-            setShouldUpdateScore(true); // Déclenche la mise à jour du score après sauvegarde
         }
     }, [responseMessages, isCorrectAnswer, isAnswer]);
 
@@ -106,6 +105,7 @@ const QuizzGuessMonster = () => {
 
             const updatedResponses = [data, ...responseMessages];
             setResponseMessages(updatedResponses);
+            setShouldUpdateScore(true);
 
             if (data.all_correct) {
                 setIsCorrectAnswer(true);
